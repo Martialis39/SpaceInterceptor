@@ -18,7 +18,6 @@ export const parseLevelString = ({
     directions
 }) => {
     const lines = levelString.split('\n').filter(Boolean)
-    console.log("Lines is ", lines)
     const widthUnit = width / (lines[0].length - 1)
     const heightUnit = height / (lines.length - 1)
 

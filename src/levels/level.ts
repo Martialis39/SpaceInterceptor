@@ -2,20 +2,20 @@ import * as Phaser from 'phaser';
 import { createBases, getBasesFromStrings, parseLevelString } from '../utility/creation';
 import { directions } from '../utility/constants';
 
-const level_1_string = `
----U---
--------
--B---B-
--------
----D---
-`
 
-export default class Level1 extends Phaser.Scene {
+export default class Level extends Phaser.Scene {
     satellites;
-    ship
-    constructor (key)
+    ship;
+    levelString;
+
+    constructor ()
     {
-        super(key);
+        super('level');
+    }
+
+    init (data)
+    {
+        this.levelString = data.levelString
     }
 
     preload ()
@@ -33,24 +33,8 @@ export default class Level1 extends Phaser.Scene {
     create ()
     {
 
-        // const things = [
-        //     {
-        //         type: 'base',
-        //         position: {
-        //         x: 100,
-        //         y: this.cameras.main.centerY
-        //     }},
-        //     {
-        //         type: 'base',
-        //         position: {
-        //         x: this.cameras.main.centerX * 2 - 100,
-        //         y: this.cameras.main.centerY
-        //     }}
-        // ]
-
-
         const levelAsString = parseLevelString({
-            levelString: level_1_string,
+            levelString: this.levelString,
             height: this.cameras.main.height,
             width: this.cameras.main.width,
             directions: directions
