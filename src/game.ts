@@ -1,7 +1,5 @@
 import * as Phaser from 'phaser';
-import {createBases} from "./utility/creation.ts"
 import Level from './levels/level.ts';
-import BaseScene from './levels/base_level.ts';
 
 
 const level_1_string = `
@@ -11,6 +9,9 @@ const level_1_string = `
 -------
 ---D---
 `
+
+const level_1_stars = [{"position":{"x":640,"y":0},"dir":{"x":0,"y":1},"time":1100},{"position":{"x":640,"y":720},"dir":{"x":0,"y":-1},"time":3300},{"position":{"x":640,"y":0},"dir":{"x":0,"y":1},"time":5300},{"position":{"x":640,"y":720},"dir":{"x":0,"y":-1},"time":7600}]
+
 class Main extends Phaser.Scene
 {
     constructor ()
@@ -21,7 +22,8 @@ class Main extends Phaser.Scene
     create ()
     {
         this.scene.launch('level', {
-            levelString: level_1_string
+            levelString: level_1_string,
+            stars: level_1_stars
         })
     }
 }

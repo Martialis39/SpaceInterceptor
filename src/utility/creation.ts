@@ -72,7 +72,7 @@ export const parseLevelString = ({
 };
 
 export const getSpawnersFromStrings = (levelString: GameElement[]) => {
-  return levelString.filter(({type}) => type === "spawner");
+  return levelString.filter(({type}) => type === "spawn");
 };
 
 export const getBasesFromStrings = (levelString: GameElement[]) => {

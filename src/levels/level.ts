@@ -7,11 +7,13 @@ import {
 } from "../utility/creation";
 import { directions } from "../utility/constants";
 import { setInLocalStorage } from "../utility/localStorage";
+import { Star } from "../types";
 
 export default class Level extends Phaser.Scene {
   satellites;
   ship;
   levelString;
+  stars;
 
   constructor() {
     super("level");
@@ -19,11 +21,13 @@ export default class Level extends Phaser.Scene {
 
   init(data) {
     this.levelString = data.levelString;
+    this.stars = data.stars;
   }
 
   preload() {
     this.load.image("satellite", "assets/satellite.png");
     this.load.image("ship", "assets/ship.png");
+    this.load.image("star", "assets/star.png");
   }
 
   getSatellites() {
@@ -37,9 +41,23 @@ export default class Level extends Phaser.Scene {
       width: this.cameras.main.width,
       directions: directions,
     });
+
+    if(this.stars){
+      this.stars.forEach((star: Star)=> {
+        setTimeout(() => {
+          const s = this.physics.add.sprite(star.position.x, star.position.y, "star")
+          s.setVelocity(star.dir.x * 100, star.dir.y * 100)
+          this.physics.add.collider(this.ship, s, (s, _sat) => {
+            console.log("Got me")
+            _sat.destroy()
+          });
+        }, star.time)
+      })
+    }
+
     const things = getBasesFromStrings(levelAsString);
     const s = createBases(this, things);
-    const shipSprite = this.add.sprite(s[0].x, s[0].y, "ship");
+    const shipSprite = this.physics.add.sprite(s[0].x, s[0].y, "ship");
     shipSprite.scale = 0.5;
     this.ship = shipSprite;
 
@@ -56,13 +74,14 @@ export default class Level extends Phaser.Scene {
 
     const spawners = getSpawnersFromStrings(levelAsString);
 
+    console.log("Ran me")
+
     spawners.forEach((spawner) => {
-      console.log("Spawner is ", spawner);
+      console.log("SP is ", spawner)
       const s = this.add
         .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
         .setInteractive();
       s.on("pointerdown", () => {
-        console.log("Clicked me!");
         setInLocalStorage("level_1", {
           position: spawner.position,
           dir: spawner.dir,
