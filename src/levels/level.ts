@@ -48,7 +48,6 @@ export default class Level extends Phaser.Scene {
           const s = this.physics.add.sprite(star.position.x, star.position.y, "star")
           s.setVelocity(star.dir.x * 100, star.dir.y * 100)
           this.physics.add.collider(this.ship, s, (s, _sat) => {
-            console.log("Got me")
             _sat.destroy()
           });
         }, star.time)
@@ -74,10 +73,7 @@ export default class Level extends Phaser.Scene {
 
     const spawners = getSpawnersFromStrings(levelAsString);
 
-    console.log("Ran me")
-
     spawners.forEach((spawner) => {
-      console.log("SP is ", spawner)
       const s = this.add
         .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
         .setInteractive();
@@ -97,10 +93,6 @@ export default class Level extends Phaser.Scene {
           y: sat.y,
           x: sat.x,
           duration: 200,
-        });
-
-        this.physics.add.collider(this.ship, sat, (s, _sat) => {
-          console.log("S is ", s);
         });
       });
     });
