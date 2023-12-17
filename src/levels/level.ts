@@ -15,8 +15,12 @@ export default class Level extends Phaser.Scene {
   levelString;
   stars;
 
-  constructor() {
-    super("level");
+  running;
+
+  constructor(key) {
+    
+    super(key);
+    this.running = true;
   }
 
   init(data) {
@@ -34,6 +38,7 @@ export default class Level extends Phaser.Scene {
     return this.satellites;
   }
 
+
   create() {
     const levelAsString = parseLevelString({
       levelString: this.levelString,
@@ -45,6 +50,7 @@ export default class Level extends Phaser.Scene {
     if(this.stars){
       this.stars.forEach((star: Star)=> {
         setTimeout(() => {
+          if(!this.running) return
           const s = this.physics.add.sprite(star.position.x, star.position.y, "star")
           s.setVelocity(star.dir.x * 100, star.dir.y * 100)
           this.physics.add.collider(this.ship, s, (s, _sat) => {
@@ -65,9 +71,14 @@ export default class Level extends Phaser.Scene {
 
     this.satellites = s;
 
+    this.events.once('shutdown', () => {
+      console.log("Destroyed me ")
+      this.running = false
+    })
+
     let time = 0;
 
-    setInterval(() => {
+    const interval = setInterval(() => {
       time += 100;
     }, 100);
 
