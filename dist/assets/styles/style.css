@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'FFFForward';
+    src: url('../font/FFFFORWA.TTF');
+}
+
+body {
+    font-family: 'FFFForward' /* Use the font in the body or adjust as needed */
+}

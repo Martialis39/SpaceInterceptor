@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import Level from './levels/level.ts';
 import LevelOver from './ui/index.ts';
 import Level_01 from './levels/level_01.ts';
+import Score from './ui/score.ts';
 
 
 const level_1_string = `
@@ -33,6 +34,14 @@ class Main extends Phaser.Scene
             stars: level_1_stars
         })
 
+        this.scene.launch('score')
+
+        const scoreScene = this.scene.get('score') as Score
+
+        if(scoreScene.setScore){
+            window.doSth = scoreScene.setScore
+        }
+
         this.scene.launch('level_over_ui', {
             callback: () => {
                 this.scene.stop(level[this.index]).launch(level[this.index + 1]);
@@ -47,7 +56,7 @@ const config = {
     backgroundColor: '#125555',
     width: 1280,
     height: 720,
-    scene: [Main, Level, LevelOver, Level_01],
+    scene: [Main, Level, LevelOver, Level_01, Score],
     physics: {
         default: 'arcade',
         arcade: { debug: true }

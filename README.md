@@ -1,4 +1,14 @@
-# Phaser 3 TypeScript Project Template
+# Space Interceptor
+
+A game in Phaser 3! Keeping the template below for reference.
+
+## Credits
+
+Font:
+
+FFFForward, Fonts for Flash, https://www.1001fonts.com/fff-forward-font.html
+
+## Phaser 3 TypeScript Project Template
 
 This quick-start project template combines Phaser 3.60 with [TypeScript 5](https://www.typescriptlang.org/) and uses [Rollup](https://rollupjs.org) for bundling.
 
