@@ -8,6 +8,7 @@ import {
 import { directions } from "../utility/constants";
 import { setInLocalStorage } from "../utility/localStorage";
 import { Star } from "../types";
+import { easeInOutBack } from "../utility/easing";
 
 export default class Level extends Phaser.Scene {
   satellites;
@@ -92,11 +93,29 @@ export default class Level extends Phaser.Scene {
 
     s.forEach((sat) => {
       sat.on("pointerdown", () => {
+        // Calculate the angle between the player and the target
+        var angle = Phaser.Math.Angle.Between(this.ship.x, this.ship.y, sat.x, sat.y);
+
+        // Convert the angle from radians to degrees
+        var angleDegrees = Phaser.Math.RadToDeg(angle);
+
+        // Create a tween to smoothly rotate the player to face the target
+
         this.tweens.add({
           targets: this.ship,
-          y: sat.y,
-          x: sat.x,
-          duration: 200,
+          duration: 700, // duration in milliseconds
+          angle: angleDegrees + 90,
+          ease: easeInOutBack, // you can use other easing functions as well
+          onComplete: () => {
+            // This function is called when the tween completes
+            console.log("Rotation completed!");
+            this.tweens.add({
+              targets: this.ship,
+              y: sat.y,
+              x: sat.x,
+              duration: 200,
+            });
+          }
         });
       });
     });
