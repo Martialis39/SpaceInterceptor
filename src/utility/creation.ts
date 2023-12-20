@@ -78,3 +78,7 @@ export const getSpawnersFromStrings = (levelString: GameElement[]) => {
 export const getBasesFromStrings = (levelString: GameElement[]) => {
   return levelString.filter(({ type }) => type === "base");
 };
+
+export const createTextInBox = () => {
+  
+}
