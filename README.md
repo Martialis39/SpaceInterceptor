@@ -4,6 +4,8 @@ A game in Phaser 3! Keeping the template below for reference.
 
 ## Credits
 
+Thank you to Richard Davey <rich@photonstorm.com> (http://www.photonstorm.com)" for making Phaser3 and this template!
+
 Font:
 
 FFFForward, Fonts for Flash, https://www.1001fonts.com/fff-forward-font.html
