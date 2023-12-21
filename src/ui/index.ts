@@ -31,6 +31,8 @@ export default class LevelOver extends Phaser.Scene {
       .setAlpha(0)
       .setScale(0.5, 0.5);
 
+    window.q = quit;
+
     hBoxContainer({
       children: [quit, play],
       scene: this,

@@ -15,6 +15,7 @@ export default class Level extends Phaser.Scene {
   ship;
   levelString;
   stars;
+  starObjects = [];
 
   constructor(key) {
     super(key);
@@ -35,6 +36,38 @@ export default class Level extends Phaser.Scene {
     return this.satellites;
   }
 
+  update(): void {
+    if (this.starObjects.length > 0) {
+      this.starObjects.forEach((star) => {
+        // Get the bounds of the game camera
+        const cameraBounds = new Phaser.Geom.Rectangle(
+          0,
+          0,
+          this.cameras.main.width,
+          this.cameras.main.height
+        );
+
+        if (
+          !Phaser.Geom.Rectangle.ContainsPoint(cameraBounds, {
+            x: star.x,
+            y: star.y,
+          } as Phaser.Geom.Point)
+        ) {
+          console.log(" i am offscreen ");
+          this.starObjects = this.starObjects.filter((s) => s !== star);
+          this.tweens.add({
+            targets: star,
+            alpha: 0,
+            duration: 200,
+            onComplete: () => {
+              star.destroy();
+            },
+          });
+        }
+      });
+    }
+  }
+
   create() {
     const levelAsString = parseLevelString({
       levelString: this.levelString,
@@ -52,8 +85,17 @@ export default class Level extends Phaser.Scene {
             "star"
           );
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
-          this.physics.add.collider(this.ship, s, (s, _sat) => {
-            _sat.destroy();
+
+          this.time.delayedCall(3000, () => {
+            if (s && s.active) {
+              this.starObjects.push(s);
+            }
+          });
+          this.physics.add.collider(this.ship, s, (ship, starCollider) => {
+            starCollider.destroy();
+            this.starObjects = this.starObjects.filter(
+              (s) => s !== starCollider
+            );
           });
         });
       });
@@ -94,7 +136,12 @@ export default class Level extends Phaser.Scene {
     s.forEach((sat) => {
       sat.on("pointerdown", () => {
         // Calculate the angle between the player and the target
-        var angle = Phaser.Math.Angle.Between(this.ship.x, this.ship.y, sat.x, sat.y);
+        var angle = Phaser.Math.Angle.Between(
+          this.ship.x,
+          this.ship.y,
+          sat.x,
+          sat.y
+        );
 
         // Convert the angle from radians to degrees
         var angleDegrees = Phaser.Math.RadToDeg(angle);
@@ -115,7 +162,7 @@ export default class Level extends Phaser.Scene {
               x: sat.x,
               duration: 200,
             });
-          }
+          },
         });
       });
     });

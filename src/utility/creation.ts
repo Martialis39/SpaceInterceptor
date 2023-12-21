@@ -1,18 +1,17 @@
-import { GameElement} from "../types";
+import { GameElement } from "../types";
 
 export const createBases = (scene, parsedLevel) => {
-  const bases = getBasesFromStrings(parsedLevel)
-  const targets = 
-    bases.map((sat) => {
-      const satellite = scene.physics.add.sprite(
-        sat.position.x,
-        sat.position.y,
-        "satellite"
-      );
-      satellite.scale = 0.25;
-      satellite.setInteractive();
-      return satellite;
-    });
+  const bases = getBasesFromStrings(parsedLevel);
+  const targets = bases.map((sat) => {
+    const satellite = scene.physics.add.sprite(
+      sat.position.x,
+      sat.position.y,
+      "satellite"
+    );
+    satellite.scale = 0.25;
+    satellite.setInteractive();
+    return satellite;
+  });
 
   return targets;
 };
@@ -21,7 +20,7 @@ export const parseLevelString = ({
   levelString,
   height,
   width,
-  directions
+  directions,
 }): GameElement[] => {
   const lines = levelString.split("\n").filter(Boolean);
   const widthUnit = width / (lines[0].length - 1);
@@ -72,13 +71,11 @@ export const parseLevelString = ({
 };
 
 export const getSpawnersFromStrings = (levelString: GameElement[]) => {
-  return levelString.filter(({type}) => type === "spawn");
+  return levelString.filter(({ type }) => type === "spawn");
 };
 
 export const getBasesFromStrings = (levelString: GameElement[]) => {
   return levelString.filter(({ type }) => type === "base");
 };
 
-export const createTextInBox = () => {
-  
-}
+export const createTextInBox = () => {};

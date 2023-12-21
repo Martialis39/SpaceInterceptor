@@ -31,6 +31,9 @@ class Main extends Phaser.Scene {
   preload() {
     this.load.image(SPRITES.BUTTONS.PLAY, "assets/play_button.png");
     this.load.image(SPRITES.BUTTONS.QUIT, "assets/cross_button.png");
+
+    this.load.image("bg", "assets/backgrounds/bg.png");
+    this.load.image("nebulae", "assets/backgrounds/nebulae.png");
   }
 
   create() {
@@ -38,6 +41,20 @@ class Main extends Phaser.Scene {
     let current = this.scene.launch("level_01", {
       levelString: level_1_string,
       stars: level_1_stars,
+    });
+
+    this.add.sprite(0, 0, "bg").setOrigin(0, 0);
+    const neb = this.add.sprite(0, 0, "nebulae");
+    const x = this.cameras.main.width / 2;
+    const y = this.cameras.main.height / 2;
+    neb.setX(x);
+    neb.setY(y);
+
+    this.tweens.add({
+      targets: [neb],
+      y: neb.y + 400,
+      duration: 10000, // Duration of the tween in milliseconds
+      ease: "Linear", // Easing function, you can use others like 'Cubic', 'Elastic', etc.
     });
 
     this.scene.launch("score");
