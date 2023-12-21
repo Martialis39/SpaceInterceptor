@@ -5,18 +5,15 @@ import Level_01 from "./levels/level_01.ts";
 import Score from "./ui/score.ts";
 import { SPRITES } from "./utility/constants.ts";
 import { createTextInput } from "./utility/creation.ts";
-import { level_1_string, level_2_string, levelsStrings } from "./utility/levelsAsString.ts";
-
-const level_1_stars = [
-  { position: { x: 640, y: 0 }, dir: { x: 0, y: 1 }, time: 1100 },
-  { position: { x: 640, y: 720 }, dir: { x: 0, y: -1 }, time: 3300 },
-  { position: { x: 640, y: 0 }, dir: { x: 0, y: 1 }, time: 5300 },
-  { position: { x: 640, y: 720 }, dir: { x: 0, y: -1 }, time: 7600 },
-];
+import { levelsStrings } from "./utility/levelsAsString.ts";
+import Level_02 from "./levels/level_02.ts";
+import Level_03 from "./levels/level_03.ts";
 
 class Main extends Phaser.Scene {
+
   index;
-  levels = ["level_01", "level_01"];
+
+  levels = ["level_01", "level_02", "level_03"];
   constructor() {
     super();
     this.index = 0;
@@ -60,7 +57,9 @@ class Main extends Phaser.Scene {
         callback: this.onLevelOver
     });
 
-    createTextInput(this)
+    if(process.env.DEBUG){
+        createTextInput(this)
+    }
 
     this.add.sprite(0, 0, "bg").setOrigin(0, 0);
     const neb = this.add.sprite(0, 0, "nebulae");
@@ -86,7 +85,7 @@ const config = {
   backgroundColor: "#125555",
   width: 1280,
   height: 720,
-  scene: [Main, Level, LevelOver, Level_01, Score],
+  scene: [Main, Level, LevelOver, Score, Level_01, Level_02, Level_03],
   physics: {
     default: "arcade",
     arcade: { debug: true },

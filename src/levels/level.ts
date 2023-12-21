@@ -18,10 +18,12 @@ export default class Level extends Phaser.Scene {
   starsToSpawn
   callback
   parent
+  levelKey
 
   constructor(key) {
     super(key);
     this.destroyStar = this.destroyStar.bind(this)
+    this.levelKey = key
   }
 
   init(data) {
@@ -102,7 +104,7 @@ export default class Level extends Phaser.Scene {
               this.starObjects.push(s);
             }
           });
-          this.physics.add.collider(this.ship, s, (ship, starCollider) => {
+          this.physics.add.collider(this.ship, s, (_ship, starCollider) => {
             this.starObjects = this.starObjects.filter(
               (s) => s !== starCollider
             );
@@ -121,22 +123,38 @@ export default class Level extends Phaser.Scene {
     this.ship.setX(s[0].x);
     this.ship.setY(s[0].y);
 
-    let time = 0;
+
+    
 
     const spawners = getSpawnersFromStrings(levelAsString);
 
-    spawners.forEach((spawner) => {
-      const s = this.add
-        .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
-        .setInteractive();
-      s.on("pointerdown", () => {
-        setInLocalStorage("level_1", {
-          position: spawner.position,
-          dir: spawner.dir,
-          time,
+    // Creating the spawners
+    if (process.env.DEBUG) {
+
+      let time = 0;
+
+      setInterval(() => {
+        time += 100
+      }, 100)
+
+
+
+      console.log("this is it")
+      spawners.forEach((spawner) => {
+        const s = this.add
+          .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
+          .setInteractive();
+        s.on("pointerdown", () => {
+          console.log("This is level key", this.levelKey)
+          setInLocalStorage(this.levelKey, {
+            position: spawner.position,
+            dir: spawner.dir,
+            time,
+          });
         });
       });
-    });
+    }
+
 
     s.forEach((sat) => {
       sat.on("pointerdown", () => {
