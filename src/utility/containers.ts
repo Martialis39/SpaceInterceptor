@@ -14,10 +14,10 @@ type HBoxBindings = {
 const PADDING = 20;
 
 export const hBoxContainer = (bindings: HBoxBindings) => {
-  const x = bindings.scene.cameras.main.width / 2;
-  const y = bindings.scene.cameras.main.height / 2;
+  //   const x = bindings.scene.cameras.main.width / 2;
+  //   const y = bindings.scene.cameras.main.height / 2;
   const gap = bindings.gap ? bindings.gap : 20;
-  const container = bindings.scene.add.container(x, y);
+  const container = bindings.scene.add.container(0, 0);
 
   let tallestValue = 0;
   let tallestElement = bindings.children[0];
@@ -26,24 +26,40 @@ export const hBoxContainer = (bindings: HBoxBindings) => {
 
   bindings.children.forEach((go: GameObjectType, index: number) => {
     container.add(go);
-    width += go.width + gap;
-    if (go.height > tallestValue) {
-      tallestValue = go.height;
+
+    console.log("Called me ", go);
+
+    const myWidth = go.displayWidth;
+    width += gap + myWidth;
+
+    if (go.displayHeight > tallestValue) {
+      tallestValue = go.displayHeight;
       tallestElement = go;
     }
 
     if (index > 0) {
-      go.setX(bindings.children[index - 1].width + gap);
+      //   go.setX(
+      //     PADDING + bindings.children[index - 1].displayWidth + myWidth / 2 + gap
+      //   );
+
+      go.setX(width - myWidth + gap);
+    } else if (index + 1 === bindings.children.length) {
+      go.setX(width - myWidth);
     } else {
-      go.setX(0);
+      go.setX(0 + PADDING + myWidth / 2);
     }
-    // Center
-    go.setY(-go.height / 2);
   });
   container.height = tallestValue;
 
+  bindings.children.forEach((e) => {
+    e.y = tallestValue / 2;
+  });
   container.x = (bindings.scene.cameras.main.width - width) / 2;
   container.y = (bindings.scene.cameras.main.height - tallestValue) / 2;
+
+  var graphics = bindings.scene.add.graphics();
+  graphics.lineStyle(2, 0x00ff00); // Green color, 2-pixel line
+  graphics.strokeRect(container.x, container.y, width, tallestValue);
 };
 
 export const vBoxContainer = (bindings: HBoxBindings) => {
