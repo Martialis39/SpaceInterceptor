@@ -4,14 +4,8 @@ import LevelOver from "./ui/index.ts";
 import Level_01 from "./levels/level_01.ts";
 import Score from "./ui/score.ts";
 import { SPRITES } from "./utility/constants.ts";
-
-const level_1_string = `
----U---
--------
--B---B-
--------
----D---
-`;
+import { createTextInput } from "./utility/creation.ts";
+import { level_1_string, level_2_string, levelsStrings } from "./utility/levelsAsString.ts";
 
 const level_1_stars = [
   { position: { x: 640, y: 0 }, dir: { x: 0, y: 1 }, time: 1100 },
@@ -23,7 +17,6 @@ const level_1_stars = [
 class Main extends Phaser.Scene {
   index;
   levels = ["level_01", "level_01"];
-  levelStrings = [level_1_string]
   constructor() {
     super();
     this.index = 0;
@@ -39,6 +32,19 @@ class Main extends Phaser.Scene {
     this.load.image(SPRITES.BACKGROUND.NEBULAE_01, "assets/backgrounds/nebulae.png");
   }
 
+  debugLoadLevel(index) {
+    if(this.levels[index]){
+        this.scene.stop(this.levels[this.index]).launch(this.levels[index], {
+            levelString: levelsStrings[index],
+            stars: [],
+            callback: this.onLevelOver
+        });
+
+        this.index = index
+    }
+
+  }
+
   onLevelOver() {
     this.scene.launch("level_over_ui", {
       callback: () => {
@@ -51,10 +57,10 @@ class Main extends Phaser.Scene {
 
   create() {
      this.scene.launch("level_01", {
-      levelString: level_1_string,
-      stars: level_1_stars,
-      callback: this.onLevelOver
+        callback: this.onLevelOver
     });
+
+    createTextInput(this)
 
     this.add.sprite(0, 0, "bg").setOrigin(0, 0);
     const neb = this.add.sprite(0, 0, "nebulae");

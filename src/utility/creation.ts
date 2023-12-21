@@ -78,4 +78,28 @@ export const getBasesFromStrings = (levelString: GameElement[]) => {
   return levelString.filter(({ type }) => type === "base");
 };
 
-export const createTextInBox = () => {};
+export const createTextInput = (mainScene) => {
+
+  // Create a text input field using HTML
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.style.position = 'absolute';
+    input.style.top = '10px';
+    input.style.left = '10px';
+    document.body.appendChild(input);
+
+    var height = input.getBoundingClientRect().height
+    var btn = document.createElement('button')
+    btn.style.position = 'absolute';
+    btn.style.top = `${10 + height}px`;
+    btn.style.left = '10px';
+    btn.textContent = 'Submit';
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click', () => {
+      
+      mainScene.debugLoadLevel(Number(input.value))
+      input.value = ''
+    })
+
+};

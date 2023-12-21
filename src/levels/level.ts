@@ -11,7 +11,6 @@ import { Star } from "../types";
 import { easeInOutBack } from "../utility/easing";
 
 export default class Level extends Phaser.Scene {
-  satellites;
   ship;
   levelString;
   stars;
@@ -121,8 +120,6 @@ export default class Level extends Phaser.Scene {
 
     this.ship.setX(s[0].x);
     this.ship.setY(s[0].y);
-
-    this.satellites = s;
 
     let time = 0;
 
