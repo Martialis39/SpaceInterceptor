@@ -20,4 +20,8 @@ export const SPRITES = {
     PLAY: "play-btn",
     QUIT: "quit-btn",
   },
+  BACKGROUND: {
+    SPACE_01: 'bg',
+    NEBULAE_01: 'nebulae'
+  }
 };

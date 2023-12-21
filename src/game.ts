@@ -22,25 +22,38 @@ const level_1_stars = [
 
 class Main extends Phaser.Scene {
   index;
+  levels = ["level_01", "level_01"];
+  levelStrings = [level_1_string]
   constructor() {
     super();
     this.index = 0;
     super("main");
+    this.onLevelOver = this.onLevelOver.bind(this)
   }
 
   preload() {
     this.load.image(SPRITES.BUTTONS.PLAY, "assets/play_button.png");
     this.load.image(SPRITES.BUTTONS.QUIT, "assets/cross_button.png");
 
-    this.load.image("bg", "assets/backgrounds/bg.png");
-    this.load.image("nebulae", "assets/backgrounds/nebulae.png");
+    this.load.image(SPRITES.BACKGROUND.SPACE_01, "assets/backgrounds/bg.png");
+    this.load.image(SPRITES.BACKGROUND.NEBULAE_01, "assets/backgrounds/nebulae.png");
+  }
+
+  onLevelOver() {
+    this.scene.launch("level_over_ui", {
+      callback: () => {
+        this.index += 1
+        this.scene.stop(this.levels[this.index]).launch(this.levels[this.index + 1]);
+      },
+    });
+
   }
 
   create() {
-    const level = ["level_01", "level_01"];
-    let current = this.scene.launch("level_01", {
+     this.scene.launch("level_01", {
       levelString: level_1_string,
       stars: level_1_stars,
+      callback: this.onLevelOver
     });
 
     this.add.sprite(0, 0, "bg").setOrigin(0, 0);
@@ -59,17 +72,6 @@ class Main extends Phaser.Scene {
 
     this.scene.launch("score");
 
-    const scoreScene = this.scene.get("score") as Score;
-
-    if (scoreScene.setScore) {
-      window.doSth = scoreScene.setScore;
-    }
-
-    this.scene.launch("level_over_ui", {
-      callback: () => {
-        this.scene.stop(level[this.index]).launch(level[this.index + 1]);
-      },
-    });
   }
 }
 

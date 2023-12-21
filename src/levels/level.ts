@@ -16,14 +16,20 @@ export default class Level extends Phaser.Scene {
   levelString;
   stars;
   starObjects = [];
+  starsToSpawn
+  callback
+  parent
 
   constructor(key) {
     super(key);
+    this.destroyStar = this.destroyStar.bind(this)
   }
 
   init(data) {
     this.levelString = data.levelString;
     this.stars = data.stars;
+    this.callback = data.callback
+    this.starsToSpawn = this.stars.length
   }
 
   preload() {
@@ -32,11 +38,18 @@ export default class Level extends Phaser.Scene {
     this.load.image("star", "assets/star.png");
   }
 
-  getSatellites() {
-    return this.satellites;
+  destroyStar(star) {
+    this.starsToSpawn -= 1
+    if (this.starsToSpawn === 0 && this.starObjects.length === 0) {
+
+      this.callback()
+    }
+    star.destroy()
   }
 
   update(): void {
+
+    // Destroy stars that are out of view
     if (this.starObjects.length > 0) {
       this.starObjects.forEach((star) => {
         // Get the bounds of the game camera
@@ -53,14 +66,13 @@ export default class Level extends Phaser.Scene {
             y: star.y,
           } as Phaser.Geom.Point)
         ) {
-          console.log(" i am offscreen ");
-          this.starObjects = this.starObjects.filter((s) => s !== star);
           this.tweens.add({
             targets: star,
             alpha: 0,
             duration: 200,
             onComplete: () => {
-              star.destroy();
+              this.starObjects = this.starObjects.filter((s) => s !== star);
+              this.destroyStar(star)
             },
           });
         }
@@ -92,10 +104,10 @@ export default class Level extends Phaser.Scene {
             }
           });
           this.physics.add.collider(this.ship, s, (ship, starCollider) => {
-            starCollider.destroy();
             this.starObjects = this.starObjects.filter(
               (s) => s !== starCollider
             );
+            this.destroyStar(starCollider)
           });
         });
       });
@@ -113,10 +125,6 @@ export default class Level extends Phaser.Scene {
     this.satellites = s;
 
     let time = 0;
-
-    const interval = setInterval(() => {
-      time += 100;
-    }, 100);
 
     const spawners = getSpawnersFromStrings(levelAsString);
 
