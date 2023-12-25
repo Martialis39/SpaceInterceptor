@@ -53,6 +53,8 @@ class Main extends Phaser.Scene {
   }
 
   create() {
+
+    game.scale.startFullscreen()
      this.scene.launch("level_01", {
         callback: this.onLevelOver
     });
@@ -90,6 +92,10 @@ const config = {
     default: "arcade",
     arcade: { debug: true },
   },
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    }
 };
 
 const game = new Phaser.Game(config);
