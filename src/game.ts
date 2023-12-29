@@ -8,6 +8,7 @@ import { createTextInput } from "./utility/creation.ts";
 import { levelsStrings } from "./utility/levelsAsString.ts";
 import Level_02 from "./levels/level_02.ts";
 import Level_03 from "./levels/level_03.ts";
+import MainMenu from "./ui/main_menu.ts";
 
 class Main extends Phaser.Scene {
 
@@ -55,9 +56,10 @@ class Main extends Phaser.Scene {
   create() {
 
     game.scale.startFullscreen()
-     this.scene.launch("level_01", {
-        callback: this.onLevelOver
-    });
+    this.scene.launch('main_menu')
+    // this.scene.launch("level_01", {
+    //     callback: this.onLevelOver
+    // });
 
     if(process.env.DEBUG){
         createTextInput(this)
@@ -87,7 +89,7 @@ const config = {
   backgroundColor: "#125555",
   width: 1280,
   height: 720,
-  scene: [Main, Level, LevelOver, Score, Level_01, Level_02, Level_03],
+  scene: [MainMenu, Main, Level, LevelOver, Score, Level_01, Level_02, Level_03],
   physics: {
     default: "arcade",
     arcade: { debug: true },

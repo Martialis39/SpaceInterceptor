@@ -63,34 +63,48 @@ export const hBoxContainer = (bindings: HBoxBindings) => {
 };
 
 export const vBoxContainer = (bindings: HBoxBindings) => {
-  const x = bindings.scene.cameras.main.width / 2;
-  const y = bindings.scene.cameras.main.height / 2;
+  // const x = bindings.scene.cameras.main.width / 2;
+  // const y = bindings.scene.cameras.main.height / 2;
   const gap = bindings.gap ? bindings.gap : 20;
-  const container = bindings.scene.add.container(x, y);
+  const container = bindings.scene.add.container(0, 0);
 
-  let height = PADDING;
 
-  let widestValue = 0;
-  let widestElement = bindings.children[0];
+  if(bindings.children.length === 0){
+    return
+  }
 
-  bindings.children.forEach((go: GameObjectType, index: number) => {
+  let containerHeight = 0
+  let containerWidth = 0
+
+  if(bindings.children.length === 1){
+    const go = bindings.children[0]
+    go.setOrigin(0, 0)
     container.add(go);
-    height += go.height + gap;
-    if (go.width > widestValue) {
-      widestValue = go.height;
-      widestElement = go;
-    }
+    container.width = go.displayWidth
+    container.height = go.displayHeight
+  } else {
+    bindings.children.forEach((go: GameObjectType, index: number) => {
+      go.setOrigin(0, 0)
+      container.add(go);
+      containerHeight += go.displayHeight
+      containerHeight += gap
+      containerWidth = Math.max(containerWidth, go.displayWidth)
 
-    if (index > 0) {
-      go.setY(bindings.children[index - 1].height + gap);
-    } else {
-      go.setY(0);
-    }
-    // Center
-    go.setX(-go.width / 2);
-  });
-  container.height = widestValue;
+      if(index === 0){
+        go.y = 0
+      } else {
+        const prev = bindings.children[index - 1]
+        go.y = prev.y + prev.displayHeight + gap
+      }
+    })
 
-  container.x = (bindings.scene.cameras.main.width - widestValue) / 2;
-  container.y = (bindings.scene.cameras.main.height - container.height) / 2;
+    bindings.children.forEach((go) => {
+      go.x = containerWidth / 2 - go.displayWidth / 2
+    })
+
+  }
+
+  container.height = containerHeight;
+  container.width = containerWidth
+  return container
 };

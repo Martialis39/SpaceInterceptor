@@ -1,10 +1,6 @@
 
 import * as Phaser from "phaser";
 
-    // interface Score extends Phaser.Scene {
-    //   doSth: function;
-    // }
-
 export default class Score extends Phaser.Scene {
   
   score
