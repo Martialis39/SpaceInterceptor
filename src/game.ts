@@ -20,6 +20,7 @@ class Main extends Phaser.Scene {
     this.index = 0;
     super("main");
     this.onLevelOver = this.onLevelOver.bind(this)
+    this.launchFirstLevel = this.launchFirstLevel.bind(this)
   }
 
   preload() {
@@ -43,6 +44,14 @@ class Main extends Phaser.Scene {
 
   }
 
+  launchFirstLevel() {
+    this.index = 0
+    this.scene.launch("score");
+    this.scene.launch(this.levels[0], {
+        callback: this.onLevelOver
+    });
+  }
+
   onLevelOver() {
     this.scene.launch("level_over_ui", {
       callback: () => {
@@ -56,7 +65,10 @@ class Main extends Phaser.Scene {
   create() {
 
     game.scale.startFullscreen()
-    this.scene.launch('main_menu')
+
+    this.scene.launch('main_menu', ({callback: () => {
+        this.launchFirstLevel()
+    }}))
     // this.scene.launch("level_01", {
     //     callback: this.onLevelOver
     // });
@@ -65,8 +77,8 @@ class Main extends Phaser.Scene {
         createTextInput(this)
     }
 
-    this.add.sprite(0, 0, "bg").setOrigin(0, 0);
-    const neb = this.add.sprite(0, 0, "nebulae");
+    this.add.sprite(0, 0, SPRITES.BACKGROUND.SPACE_01).setOrigin(0, 0);
+    const neb = this.add.sprite(0, 0, SPRITES.BACKGROUND.NEBULAE_01);
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
     neb.setX(x);
@@ -79,7 +91,6 @@ class Main extends Phaser.Scene {
       ease: "Linear", // Easing function, you can use others like 'Cubic', 'Elastic', etc.
     });
 
-    this.scene.launch("score");
 
   }
 }
@@ -89,7 +100,7 @@ const config = {
   backgroundColor: "#125555",
   width: 1280,
   height: 720,
-  scene: [MainMenu, Main, Level, LevelOver, Score, Level_01, Level_02, Level_03],
+  scene: [Main, MainMenu, Level, LevelOver, Score, Level_01, Level_02, Level_03],
   physics: {
     default: "arcade",
     arcade: { debug: true },

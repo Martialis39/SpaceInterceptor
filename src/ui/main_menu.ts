@@ -10,6 +10,7 @@ export default class MainMenu extends Phaser.Scene {
 
     constructor() {
         super("main_menu");
+        this.fadeOut = this.fadeOut.bind(this)
     }
 
     preload() {
@@ -21,6 +22,18 @@ export default class MainMenu extends Phaser.Scene {
         this.callback = data.callback
     }
 
+    fadeOut() {
+        const cs = this.children.getChildren()
+        cs.forEach(child => {
+            this.tweens.add({
+                targets: child,
+                alpha: 0,
+                ease: 'linear',
+                duration: 400,
+            });
+        })
+    }
+
     create() {
 
         const play = this.add
@@ -28,58 +41,45 @@ export default class MainMenu extends Phaser.Scene {
             .setInteractive()
             .setAlpha(1)
             .setScale(0.5, 0.5);
-        //   .setOrigin(0, 0);
+
+        play.on('pointerdown', () => {
+            if (this.callback) {
+                this.callback()
+                this.fadeOut()
+            }
+        })
+
         const quit = this.add
             .sprite(0, 0, SPRITES.BUTTONS.QUIT)
             .setInteractive()
             .setAlpha(1)
             .setScale(0.5, 0.5);
 
-        const quit2 = this.add
-            .sprite(0, 0, SPRITES.BUTTONS.QUIT)
-            .setInteractive()
-            .setAlpha(1)
-            .setScale(0.5, 0.5);
-        const quit3 = this.add
-            .sprite(0, 0, SPRITES.BUTTONS.QUIT)
-            .setInteractive()
-            .setAlpha(1)
-            .setScale(0.5, 0.5);
-        const quit4 = this.add
-            .sprite(0, 0, SPRITES.BUTTONS.QUIT)
-            .setInteractive()
-            .setAlpha(1)
-            .setScale(0.5, 0.5);
-
-        quit4.on('pointerover', () => {
-            this.tweens.add({
-                targets: quit4,
-                y: quit4.y - 6,
-                ease: easeInOutBack,
-                duration: 200,
-            });
-        })
-        quit4.on('pointerout', () => {
-            this.tweens.add({
-                targets: quit4,
-                y: quit4.y + 6,
-                ease: easeInOutBack,
-                duration: 200,
-            });
+        [play, quit].forEach((btn) => {
+            btn.on('pointerover', () => {
+                this.tweens.add({
+                    targets: btn,
+                    y: btn.y - 6,
+                    ease: easeInOutBack,
+                    duration: 200,
+                });
+            })
+            btn.on('pointerout', () => {
+                this.tweens.add({
+                    targets: btn,
+                    y: btn.y + 6,
+                    ease: easeInOutBack,
+                    duration: 200,
+                });
+            })
         })
 
         var labelText = "Space Interceptor"
-        var textStyle = { fontSize: "48px", fontFamily: 'FFFForward', color: '#000000' }; // Set your desired text style
+        var textStyle = { fontSize: "48px", fontFamily: 'FFFForward', color: '#fafafa' }; // Set your desired text style
         var text = this.add.text(0, 0, labelText, textStyle);
-        const hbox = hBoxContainer({ children: [quit2, quit3, quit4], scene: this })
 
-        const vbox = vBoxContainer({ children: [text, play, hbox, quit], scene: this })
+        const vbox = vBoxContainer({ children: [text, play, quit], scene: this })
         vbox.x = this.cameras.main.width / 2 - vbox.width / 2
         vbox.y = this.cameras.main.height / 2 - vbox.height / 2
-
-        var graphics = this.add.graphics();
-        graphics.lineStyle(2, 0x00ff00); // Green color, 2-pixel line
-        graphics.strokeRect(vbox.x, vbox.y, vbox.width, vbox.height);
-
     }
 }
