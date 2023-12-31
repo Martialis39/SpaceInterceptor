@@ -10,7 +10,6 @@ export default class MainMenu extends Phaser.Scene {
 
     constructor() {
         super("main_menu");
-        this.fadeOut = this.fadeOut.bind(this)
     }
 
     preload() {
@@ -19,19 +18,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     init(data) {
-        this.callback = data.callback
-    }
-
-    fadeOut() {
-        const cs = this.children.getChildren()
-        cs.forEach(child => {
-            this.tweens.add({
-                targets: child,
-                alpha: 0,
-                ease: 'linear',
-                duration: 400,
-            });
-        })
+        this.callback = data.callback.bind(this)
     }
 
     create() {
@@ -44,8 +31,8 @@ export default class MainMenu extends Phaser.Scene {
 
         play.on('pointerdown', () => {
             if (this.callback) {
+                console.log("here now 2")
                 this.callback()
-                this.fadeOut()
             }
         })
 

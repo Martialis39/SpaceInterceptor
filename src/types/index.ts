@@ -16,3 +16,8 @@ export type Star = {
     position: Position
     dir: Direction
 }
+
+export enum TransitionDirection{
+    IN,
+    OUT
+}

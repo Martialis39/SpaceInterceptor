@@ -7,7 +7,7 @@ import {
 } from "../utility/creation";
 import { directions } from "../utility/constants";
 import { setInLocalStorage } from "../utility/localStorage";
-import { Star } from "../types";
+import { Star, TransitionDirection } from "../types";
 import { easeInOutBack } from "../utility/easing";
 
 export default class Level extends Phaser.Scene {

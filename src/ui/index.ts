@@ -14,31 +14,31 @@ export default class LevelOver extends Phaser.Scene {
     this.callback = data.callback;
   }
 
-  preload() {
-    this.load.image("stt", "assets/star.png");
-  }
-
   create() {
     const play = this.add
       .sprite(0, 0, SPRITES.BUTTONS.PLAY)
       .setInteractive()
       .setAlpha(0)
       .setScale(0.5, 0.5);
-    //   .setOrigin(0, 0);
+
     const quit = this.add
       .sprite(0, 0, SPRITES.BUTTONS.QUIT)
       .setInteractive()
       .setAlpha(0)
       .setScale(0.5, 0.5);
 
-    window.q = quit;
-
-    hBoxContainer({
+    const hbox = hBoxContainer({
       children: [quit, play],
       scene: this,
     });
 
-    // Create a tween to gradually change the alpha from 0 to 1
+    play.on('pointerdown', () => {
+      this.callback()
+    })
+
+    hbox.x = this.cameras.main.width / 2 - hbox.width / 2
+    hbox.y = this.cameras.main.height / 2 - hbox.height / 2
+
     this.tweens.add({
       targets: [play, quit],
       alpha: 1,
