@@ -25,3 +25,7 @@ export const SPRITES = {
     NEBULAE_01: 'nebulae'
   }
 };
+
+export const LS = {
+  TIMER: 'debug-timer-value'
+}

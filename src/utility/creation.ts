@@ -1,4 +1,5 @@
 import { GameElement } from "../types";
+import { LS } from "./constants";
 
 export const createBases = (scene, parsedLevel) => {
   const bases = getBasesFromStrings(parsedLevel);
@@ -80,26 +81,38 @@ export const getBasesFromStrings = (levelString: GameElement[]) => {
 
 export const createTextInput = (mainScene) => {
 
+    const container = document.querySelector('#debug-only')
   // Create a text input field using HTML
-    var input = document.createElement('input');
-    input.type = 'text';
-    input.style.position = 'absolute';
-    input.style.top = '10px';
-    input.style.left = '10px';
-    document.body.appendChild(input);
 
-    var height = input.getBoundingClientRect().height
-    var btn = document.createElement('button')
-    btn.style.position = 'absolute';
-    btn.style.top = `${10 + height}px`;
-    btn.style.left = '10px';
-    btn.textContent = 'Submit';
-    document.body.appendChild(btn);
+    var btn = document.querySelector('.debug-level-select button')
+    var input = document.querySelector('.debug-level-select input') as HTMLInputElement
 
     btn.addEventListener('click', () => {
-      
       mainScene.debugLoadLevel(Number(input.value))
       input.value = ''
+    })
+
+
+    // Also set up time controls
+
+    let time = 0
+
+    localStorage.setItem(LS.TIMER, '0')
+    const [plusButton, minusButton] = Array.from(container.querySelectorAll('.debug-time-container button'))
+    const display = container.querySelector('.display')
+
+
+
+    plusButton.addEventListener('click', () => {
+      time += 100
+      localStorage.setItem(LS.TIMER, String(time))
+      display.textContent = String(time)
+    })
+
+    minusButton.addEventListener('click', () => {
+      time -= 100
+      localStorage.setItem(LS.TIMER, String(time))
+      display.textContent = String(time)
     })
 
 };
