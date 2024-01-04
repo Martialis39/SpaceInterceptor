@@ -20,6 +20,7 @@ export default class Level extends Phaser.Scene {
   parent;
   levelKey;
   activeSatellite;
+  shipIsMoving;
 
   constructor(key) {
     super(key);
@@ -154,10 +155,12 @@ export default class Level extends Phaser.Scene {
 
     s.forEach((sat) => {
       sat.on("pointerdown", () => {
-        // Ignore clicks on active satellite
-        if (sat === this.activeSatellite) {
+        // Ignore clicks on active satellite and when ship is already moving
+        if (sat === this.activeSatellite || this.shipIsMoving) {
           return;
         }
+
+        this.shipIsMoving = true;
 
         // Set active satellite
         this.activeSatellite = sat;
@@ -171,6 +174,9 @@ export default class Level extends Phaser.Scene {
 
         // Convert the angle from radians to degrees
         var angleDegrees = Phaser.Math.RadToDeg(angle);
+
+        // TODO: There is a bug where the ship starts moving down
+        // this occurs when the tween time is quite long
 
         // Create a tween to smoothly rotate the player to face the target
 
@@ -187,6 +193,9 @@ export default class Level extends Phaser.Scene {
               y: sat.y,
               x: sat.x,
               duration: 200,
+              onComplete: () => {
+                this.shipIsMoving = false;
+              },
             });
           },
         });
