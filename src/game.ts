@@ -32,7 +32,7 @@ class Main extends Phaser.Scene {
     this.load.image(SPRITES.BACKGROUND.SPACE_01, "assets/backgrounds/bg.png");
     this.load.image(
       SPRITES.BACKGROUND.NEBULAE_01,
-      "assets/backgrounds/nebulae.png"
+      "assets/backgrounds/nebulae.png",
     );
   }
 

@@ -15,22 +15,22 @@ export default class Level extends Phaser.Scene {
   levelString;
   stars;
   starObjects = [];
-  starsToSpawn
-  callback
-  parent
-  levelKey
+  starsToSpawn;
+  callback;
+  parent;
+  levelKey;
 
   constructor(key) {
     super(key);
-    this.destroyStar = this.destroyStar.bind(this)
-    this.levelKey = key
+    this.destroyStar = this.destroyStar.bind(this);
+    this.levelKey = key;
   }
 
   init(data) {
     this.levelString = data.levelString;
     this.stars = data.stars;
-    this.callback = data.callback
-    this.starsToSpawn = this.stars.length
+    this.callback = data.callback;
+    this.starsToSpawn = this.stars.length;
   }
 
   preload() {
@@ -40,16 +40,14 @@ export default class Level extends Phaser.Scene {
   }
 
   destroyStar(star) {
-    this.starsToSpawn -= 1
+    this.starsToSpawn -= 1;
     if (this.starsToSpawn === 0 && this.starObjects.length === 0) {
-
-      this.callback()
+      this.callback();
     }
-    star.destroy()
+    star.destroy();
   }
 
   update(): void {
-
     // Destroy stars that are out of view
     if (this.starObjects.length > 0) {
       this.starObjects.forEach((star) => {
@@ -58,7 +56,7 @@ export default class Level extends Phaser.Scene {
           0,
           0,
           this.cameras.main.width,
-          this.cameras.main.height
+          this.cameras.main.height,
         );
 
         if (
@@ -73,7 +71,7 @@ export default class Level extends Phaser.Scene {
             duration: 200,
             onComplete: () => {
               this.starObjects = this.starObjects.filter((s) => s !== star);
-              this.destroyStar(star)
+              this.destroyStar(star);
             },
           });
         }
@@ -95,7 +93,7 @@ export default class Level extends Phaser.Scene {
           const s = this.physics.add.sprite(
             star.position.x,
             star.position.y,
-            "star"
+            "star",
           );
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
 
@@ -106,9 +104,9 @@ export default class Level extends Phaser.Scene {
           });
           this.physics.add.collider(this.ship, s, (_ship, starCollider) => {
             this.starObjects = this.starObjects.filter(
-              (s) => s !== starCollider
+              (s) => s !== starCollider,
             );
-            this.destroyStar(starCollider)
+            this.destroyStar(starCollider);
           });
         });
       });
@@ -123,29 +121,23 @@ export default class Level extends Phaser.Scene {
     this.ship.setX(s[0].x);
     this.ship.setY(s[0].y);
 
-
-    
-
     const spawners = getSpawnersFromStrings(levelAsString);
 
     // Creating the spawners
     if (process.env.DEBUG) {
-
       let time = 0;
 
       setInterval(() => {
-        time += 100
-      }, 100)
+        time += 100;
+      }, 100);
 
-
-
-      console.log("this is it")
+      console.log("this is it");
       spawners.forEach((spawner) => {
         const s = this.add
           .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
           .setInteractive();
         s.on("pointerdown", () => {
-          console.log("This is level key", this.levelKey)
+          console.log("This is level key", this.levelKey);
           setInLocalStorage(this.levelKey, {
             position: spawner.position,
             dir: spawner.dir,
@@ -155,7 +147,6 @@ export default class Level extends Phaser.Scene {
       });
     }
 
-
     s.forEach((sat) => {
       sat.on("pointerdown", () => {
         // Calculate the angle between the player and the target
@@ -163,7 +154,7 @@ export default class Level extends Phaser.Scene {
           this.ship.x,
           this.ship.y,
           sat.x,
-          sat.y
+          sat.y,
         );
 
         // Convert the angle from radians to degrees

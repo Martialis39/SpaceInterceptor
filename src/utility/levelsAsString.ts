@@ -4,7 +4,7 @@ export const level_1_string = `
 -B---B-
 -------
 ---D---
-`
+`;
 
 export const level_2_string = `
 -------
@@ -14,7 +14,7 @@ L-----R
 -------
 ---B---
 -------
-`
+`;
 
 export const level_3_string = `
 --U----
@@ -24,7 +24,7 @@ L-----R
 L-----R
 -B---B-
 ----D--
-`
+`;
 
 export const level_4_string = `
 --UUU--
@@ -34,11 +34,11 @@ export const level_4_string = `
 -------
 -B---B-
 --DDD--
-`
+`;
 
 export const levelsStrings = [
-    level_1_string,
-    level_2_string,
-    level_3_string,
-    level_4_string
-]
+  level_1_string,
+  level_2_string,
+  level_3_string,
+  level_4_string,
+];

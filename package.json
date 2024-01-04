@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "rollup --config rollup.config.dev.mjs",
         "build": "rollup --config rollup.config.dist.mjs",
-        "watch": "rollup --watch --config rollup.config.dev.mjs"
+        "watch": "rollup --watch --config rollup.config.dev.mjs",
+        "format": "prettier --write ./**/*.ts"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^24.0.1",
@@ -18,5 +19,8 @@
         "rollup": "^3.20.2",
         "rollup-plugin-serve": "^2.0.2",
         "typescript": "^5.0.3"
+    },
+    "dependencies": {
+        "prettier": "^3.1.1"
     }
 }

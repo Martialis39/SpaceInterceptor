@@ -32,12 +32,12 @@ export default class LevelOver extends Phaser.Scene {
       scene: this,
     });
 
-    play.on('pointerdown', () => {
-      this.callback()
-    })
+    play.on("pointerdown", () => {
+      this.callback();
+    });
 
-    hbox.x = this.cameras.main.width / 2 - hbox.width / 2
-    hbox.y = this.cameras.main.height / 2 - hbox.height / 2
+    hbox.x = this.cameras.main.width / 2 - hbox.width / 2;
+    hbox.y = this.cameras.main.height / 2 - hbox.height / 2;
 
     this.tweens.add({
       targets: [play, quit],

@@ -7,7 +7,7 @@ export const createBases = (scene, parsedLevel) => {
     const satellite = scene.physics.add.sprite(
       sat.position.x,
       sat.position.y,
-      "satellite"
+      "satellite",
     );
     satellite.scale = 0.25;
     satellite.setInteractive();
@@ -80,39 +80,38 @@ export const getBasesFromStrings = (levelString: GameElement[]) => {
 };
 
 export const createTextInput = (mainScene) => {
-
-    const container = document.querySelector('#debug-only')
+  const container = document.querySelector("#debug-only");
   // Create a text input field using HTML
 
-    var btn = document.querySelector('.debug-level-select button')
-    var input = document.querySelector('.debug-level-select input') as HTMLInputElement
+  var btn = document.querySelector(".debug-level-select button");
+  var input = document.querySelector(
+    ".debug-level-select input",
+  ) as HTMLInputElement;
 
-    btn.addEventListener('click', () => {
-      mainScene.debugLoadLevel(Number(input.value))
-      input.value = ''
-    })
+  btn.addEventListener("click", () => {
+    mainScene.debugLoadLevel(Number(input.value));
+    input.value = "";
+  });
 
+  // Also set up time controls
 
-    // Also set up time controls
+  let time = 0;
 
-    let time = 0
+  localStorage.setItem(LS.TIMER, "0");
+  const [plusButton, minusButton] = Array.from(
+    container.querySelectorAll(".debug-time-container button"),
+  );
+  const display = container.querySelector(".display");
 
-    localStorage.setItem(LS.TIMER, '0')
-    const [plusButton, minusButton] = Array.from(container.querySelectorAll('.debug-time-container button'))
-    const display = container.querySelector('.display')
+  plusButton.addEventListener("click", () => {
+    time += 100;
+    localStorage.setItem(LS.TIMER, String(time));
+    display.textContent = String(time);
+  });
 
-
-
-    plusButton.addEventListener('click', () => {
-      time += 100
-      localStorage.setItem(LS.TIMER, String(time))
-      display.textContent = String(time)
-    })
-
-    minusButton.addEventListener('click', () => {
-      time -= 100
-      localStorage.setItem(LS.TIMER, String(time))
-      display.textContent = String(time)
-    })
-
+  minusButton.addEventListener("click", () => {
+    time -= 100;
+    localStorage.setItem(LS.TIMER, String(time));
+    display.textContent = String(time);
+  });
 };
