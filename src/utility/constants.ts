@@ -19,13 +19,14 @@ export const SPRITES = {
   BUTTONS: {
     PLAY: "play-btn",
     QUIT: "quit-btn",
+    FULLSCREEN: "fullscreen-btn",
   },
   BACKGROUND: {
-    SPACE_01: 'bg',
-    NEBULAE_01: 'nebulae'
-  }
+    SPACE_01: "bg",
+    NEBULAE_01: "nebulae",
+  },
 };
 
 export const LS = {
-  TIMER: 'debug-timer-value'
-}
+  TIMER: "debug-timer-value",
+};
