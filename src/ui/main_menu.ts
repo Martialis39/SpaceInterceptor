@@ -83,7 +83,5 @@ export default class MainMenu extends Phaser.Scene {
 
     fs.x = this.cameras.main.width - fs.displayWidth;
     fs.y = 0 + fs.displayHeight;
-
-    window.fs = fs;
   }
 }
