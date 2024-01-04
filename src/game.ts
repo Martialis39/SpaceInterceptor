@@ -3,7 +3,7 @@ import Level from "./levels/level.ts";
 import LevelOver from "./ui/index.ts";
 import Level_01 from "./levels/level_01.ts";
 import Score from "./ui/score.ts";
-import { SPRITES } from "./utility/constants.ts";
+import { SFX, SPRITES } from "./utility/constants.ts";
 import { createTextInput } from "./utility/creation.ts";
 import { levelsStrings } from "./utility/levelsAsString.ts";
 import Level_02 from "./levels/level_02.ts";
@@ -34,6 +34,8 @@ class Main extends Phaser.Scene {
       SPRITES.BACKGROUND.NEBULAE_01,
       "assets/backgrounds/nebulae.png",
     );
+
+    this.load.audio(SFX.MENU.CONFIRM, "assets/sfx/blip_01.wav");
   }
 
   debugLoadLevel(index) {

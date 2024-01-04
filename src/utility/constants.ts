@@ -27,6 +27,12 @@ export const SPRITES = {
   },
 };
 
+export const SFX = {
+  MENU: {
+    CONFIRM: "menu-confirm",
+  },
+};
+
 export const LS = {
   TIMER: "debug-timer-value",
 };

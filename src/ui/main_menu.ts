@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
-import { SPRITES } from "../utility/constants";
+import { SFX, SPRITES } from "../utility/constants";
 import { easeInOutBack } from "../utility/easing";
 
 export default class MainMenu extends Phaser.Scene {
@@ -46,8 +46,21 @@ export default class MainMenu extends Phaser.Scene {
       .setAlpha(1)
       .setScale(0.5, 0.5);
 
+    const confirmSFX = this.sound.add(SFX.MENU.CONFIRM);
+
     fs.on("pointerdown", () => {
       this.game.scale.startFullscreen();
+    });
+
+    play.on("pointerdown", () => {
+      confirmSFX.play();
+      this.tweens.add({
+        targets: play,
+        y: play.y + 6,
+        ease: easeInOutBack,
+        duration: 100,
+        yoyo: true,
+      });
     });
 
     [play, quit, fs].forEach((btn) => {
