@@ -19,6 +19,7 @@ export default class Level extends Phaser.Scene {
   callback;
   parent;
   levelKey;
+  activeSatellite;
 
   constructor(key) {
     super(key);
@@ -121,6 +122,10 @@ export default class Level extends Phaser.Scene {
     this.ship.setX(s[0].x);
     this.ship.setY(s[0].y);
 
+    // initial active satellite is 0
+
+    this.activeSatellite = s[0];
+
     const spawners = getSpawnersFromStrings(levelAsString);
 
     // Creating the spawners
@@ -149,6 +154,13 @@ export default class Level extends Phaser.Scene {
 
     s.forEach((sat) => {
       sat.on("pointerdown", () => {
+        // Ignore clicks on active satellite
+        if (sat === this.activeSatellite) {
+          return;
+        }
+
+        // Set active satellite
+        this.activeSatellite = sat;
         // Calculate the angle between the player and the target
         var angle = Phaser.Math.Angle.Between(
           this.ship.x,
