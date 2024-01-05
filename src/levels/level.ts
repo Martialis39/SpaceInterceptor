@@ -5,7 +5,7 @@ import {
   getSpawnersFromStrings,
   parseLevelString,
 } from "../utility/creation";
-import { directions } from "../utility/constants";
+import { LS, directions } from "../utility/constants";
 import { setInLocalStorage } from "../utility/localStorage";
 import { Star, TransitionDirection } from "../types";
 import { easeInOutBack } from "../utility/easing";
@@ -131,18 +131,17 @@ export default class Level extends Phaser.Scene {
 
     // Creating the spawners
     if (process.env.DEBUG) {
-      let time = 0;
 
-      setInterval(() => {
-        time += 100;
-      }, 100);
-
-      console.log("this is it");
       spawners.forEach((spawner) => {
         const s = this.add
           .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
           .setInteractive();
         s.on("pointerdown", () => {
+          // get the time key
+          const time = Number(localStorage.getItem(LS.TIMER))
+          if(!time){
+            throw new Error("No timer in LS")
+          }
           console.log("This is level key", this.levelKey);
           setInLocalStorage(this.levelKey, {
             position: spawner.position,
