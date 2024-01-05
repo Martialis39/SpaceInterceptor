@@ -10,21 +10,55 @@ import Level from "./level";
 
 const stars = [];
 
+const level_5_stars = [
+  { position: { x: 1280, y: 360 }, dir: { x: -1, y: 0 }, time: 500 },
+  { position: { x: 0, y: 360 }, dir: { x: 1, y: 0 }, time: 500 },
+  {
+    position: { x: 426.6666666666667, y: 1220 },
+    dir: { x: 0, y: -1 },
+    time: 1600,
+  },
+  {
+    position: { x: 853.3333333333334, y: 1220 },
+    dir: { x: 0, y: -1 },
+    time: 1600,
+  },
+  { position: { x: 0, y: 120 }, dir: { x: 1, y: 0 }, time: 4600 },
+  { position: { x: 0, y: 600 }, dir: { x: 1, y: 0 }, time: 4600 },
+  { position: { x: 0, y: 360 }, dir: { x: 1, y: 0 }, time: 7400 },
+  { position: { x: 0, y: 480 }, dir: { x: 1, y: 0 }, time: 7400 },
+];
+
 export class Level_05 extends Level {
   constructor() {
     super("level_05");
   }
 
   init(data): void {
+    console.log("Called level 5");
     super.init({
       levelString: level_5_string,
-      stars,
+      stars: level_5_stars,
       callback: () => {
         data.callback();
       },
     });
   }
 }
+
+const level_6_stars = [
+  { position: { x: 640, y: 0 }, dir: { x: 0, y: 1 }, time: 600 },
+  { position: { x: 0, y: 120 }, dir: { x: 1, y: 0 }, time: 600 },
+  { position: { x: 0, y: 600 }, dir: { x: 1, y: 0 }, time: 3800 },
+  { position: { x: 1280, y: 120 }, dir: { x: -1, y: 0 }, time: 3800 },
+  { position: { x: 426.6666666666667, y: 0 }, dir: { x: 0, y: 1 }, time: 7400 },
+  { position: { x: 0, y: 360 }, dir: { x: 1, y: 0 }, time: 7400 },
+  {
+    position: { x: 853.3333333333334, y: 720 },
+    dir: { x: 0, y: -1 },
+    time: 10800,
+  },
+];
 
 export class Level_06 extends Level {
   constructor() {
@@ -34,7 +68,7 @@ export class Level_06 extends Level {
   init(data): void {
     super.init({
       levelString: level_6_string,
-      stars,
+      stars: level_6_stars,
       callback: () => {
         data.callback();
       },
