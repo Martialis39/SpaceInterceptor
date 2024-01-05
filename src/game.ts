@@ -57,6 +57,8 @@ class Main extends Phaser.Scene {
     } else {
         this.index = 0;
     }
+    console.log("Called me, index is ", index)
+    console.log("Called me, this.index is ", this.index)
     this.scene.launch("transition", {
       direction: TransitionDirection.IN,
       callback: () => {
