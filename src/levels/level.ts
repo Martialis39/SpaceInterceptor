@@ -50,6 +50,7 @@ export default class Level extends Phaser.Scene {
   }
 
   update(): void {
+
     // Destroy stars that are out of view
     if (this.starObjects.length > 0) {
       this.starObjects.forEach((star) => {
@@ -80,6 +81,7 @@ export default class Level extends Phaser.Scene {
       });
     }
   }
+
 
   create() {
     const levelAsString = parseLevelString({
@@ -194,6 +196,7 @@ export default class Level extends Phaser.Scene {
               duration: 200,
               onComplete: () => {
                 this.shipIsMoving = false;
+                this.ship.body.setVelocity(0)
               },
             });
           },
