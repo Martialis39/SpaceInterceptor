@@ -35,4 +35,7 @@ export const SFX = {
 
 export const LS = {
   TIMER: "debug-timer-value",
+  LEVELS: Array(5).fill("").map((_e, i) => {
+    return `ssc-level-${i}-save`
+  }) // TODO: remove placeholder 5
 };
