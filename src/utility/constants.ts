@@ -3,6 +3,8 @@ const DOWN: Direction = { x: 0, y: 1 };
 const LEFT: Direction = { x: -1, y: 0 };
 const RIGHT: Direction = { x: 1, y: 0 };
 
+export const levels = ["level_01", "level_02", "level_03"];
+
 export const directions = {
   UP,
   DOWN,
@@ -35,7 +37,7 @@ export const SFX = {
 
 export const LS = {
   TIMER: "debug-timer-value",
-  LEVELS: Array(5).fill("").map((_e, i) => {
+  LEVELS: Array(levels.length).fill("").map((_e, i) => {
     return `ssc-level-${i}-save`
   }) // TODO: remove placeholder 5
 };

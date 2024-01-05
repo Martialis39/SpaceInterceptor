@@ -3,7 +3,7 @@ import Level from "./levels/level.ts";
 import LevelOver from "./ui/index.ts";
 import Level_01 from "./levels/level_01.ts";
 import Score from "./ui/score.ts";
-import { SFX, SPRITES } from "./utility/constants.ts";
+import { SFX, SPRITES, levels } from "./utility/constants.ts";
 import { createTextInput } from "./utility/creation.ts";
 import { levelsStrings } from "./utility/levelsAsString.ts";
 import Level_02 from "./levels/level_02.ts";
@@ -16,7 +16,7 @@ import Continue from "./ui/continue.ts";
 class Main extends Phaser.Scene {
   index;
 
-  levels = ["level_01", "level_02", "level_03"];
+  levels = levels
   constructor() {
     super("main");
     this.index = 0;
