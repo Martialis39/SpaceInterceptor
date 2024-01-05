@@ -17,9 +17,8 @@ class Main extends Phaser.Scene {
 
   levels = ["level_01", "level_02", "level_03"];
   constructor() {
-    super();
-    this.index = 0;
     super("main");
+    this.index = 0;
     this.onLevelOver = this.onLevelOver.bind(this);
     this.launchFirstLevel = this.launchFirstLevel.bind(this);
   }
