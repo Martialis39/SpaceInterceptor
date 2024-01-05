@@ -39,5 +39,6 @@ export const LS = {
   TIMER: "debug-timer-value",
   LEVELS: Array(levels.length).fill("").map((_e, i) => {
     return `ssc-level-${i}-save`
-  }) // TODO: remove placeholder 5
+  }),
+  LEVEL_DATA: 'ssc-level-data'
 };

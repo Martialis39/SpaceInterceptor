@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
 import { SFX, SPRITES } from "../utility/constants";
 import { easeInOutBack } from "../utility/easing";
+import { getPersistedLevel } from "../utility/localStorage";
 
 export default class MainMenu extends Phaser.Scene {
   callback;
@@ -31,7 +32,13 @@ export default class MainMenu extends Phaser.Scene {
       if (this.callback) {
         // this.callback();
         this.scene.stop('main_menu')
-        this.scene.launch('continue', {callback: this.callback})
+        const persistedLevel = getPersistedLevel()
+        if(persistedLevel){
+          this.scene.launch('continue', {callback: this.callback})
+        } else {
+          this.callback(0)
+        }
+
       }
     });
 

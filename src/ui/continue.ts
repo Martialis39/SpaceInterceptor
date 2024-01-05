@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser'
 import { hBoxContainer, vBoxContainer } from '../utility/containers';
 import { SPRITES } from '../utility/constants';
+import { getPersistedLevel } from '../utility/localStorage';
 
 export default class Continue extends Phaser.Scene {
   callback;
@@ -30,7 +31,8 @@ export default class Continue extends Phaser.Scene {
 
     play.on("pointerdown", () => {
       this.scene.stop('continue')
-      this.callback(2);
+      const persistedLevel = getPersistedLevel()
+      this.callback(persistedLevel);
     });
 
     const quit = this.add

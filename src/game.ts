@@ -12,6 +12,7 @@ import MainMenu from "./ui/main_menu.ts";
 import Transition from "./ui/transition.ts";
 import { TransitionDirection } from "./types/index.ts";
 import Continue from "./ui/continue.ts";
+import { persistLevel } from "./utility/localStorage.ts";
 
 class Main extends Phaser.Scene {
   index;
@@ -81,6 +82,7 @@ class Main extends Phaser.Scene {
           });
         this.scene.stop("level_over_ui");
         this.index += 1;
+        persistLevel(String(this.index))
       },
     });
   }
