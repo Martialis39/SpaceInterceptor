@@ -57,8 +57,6 @@ export default class Transition extends Phaser.Scene {
 
     graphics.setDepth(100);
 
-    console.log("Ran me, initial value", initialValue);
-
     this.tweens.add({
       targets: target,
       alpha: finalValue,

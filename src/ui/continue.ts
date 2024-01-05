@@ -28,11 +28,21 @@ export default class Continue extends Phaser.Scene {
       .setAlpha(1)
       .setScale(0.5, 0.5);
 
+    play.on("pointerdown", () => {
+      this.scene.stop('continue')
+      this.callback(2);
+    });
+
     const quit = this.add
       .sprite(0, 0, SPRITES.BUTTONS.QUIT)
       .setInteractive()
       .setAlpha(1)
       .setScale(0.5, 0.5);
+
+    quit.on("pointerdown", () => {
+      this.scene.stop('continue')
+      this.callback(0);
+    });
 
     var continueText = this.add.text(0, 0, 'Continue', { ...textStyle, fontSize: "24px" });
     var quitText = this.add.text(0, 0, 'Quit', { ...textStyle, fontSize: "24px" });

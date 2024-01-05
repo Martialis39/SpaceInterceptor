@@ -11,6 +11,7 @@ import Level_03 from "./levels/level_03.ts";
 import MainMenu from "./ui/main_menu.ts";
 import Transition from "./ui/transition.ts";
 import { TransitionDirection } from "./types/index.ts";
+import Continue from "./ui/continue.ts";
 
 class Main extends Phaser.Scene {
   index;
@@ -49,14 +50,18 @@ class Main extends Phaser.Scene {
     }
   }
 
-  launchFirstLevel() {
-    this.index = 0;
+  launchFirstLevel(index?: number) {
+    if(index){
+        this.index = index
+    } else {
+        this.index = 0;
+    }
     this.scene.launch("transition", {
       direction: TransitionDirection.IN,
       callback: () => {
         this.scene.stop("main_menu");
         this.scene.launch("score");
-        this.scene.launch(this.levels[0], {
+        this.scene.launch(this.levels[this.index], {
           callback: this.onLevelOver,
         });
       },
@@ -82,9 +87,8 @@ class Main extends Phaser.Scene {
 
   create() {
     this.scene.launch("main_menu", {
-      callback: () => {
-        console.log("Clicked here! 1");
-        this.launchFirstLevel();
+      callback: (index) => {
+        this.launchFirstLevel(index);
       },
       game,
     });
@@ -120,6 +124,7 @@ const config = {
     Level,
     LevelOver,
     Transition,
+    Continue,
     Score,
     Level_01,
     Level_02,

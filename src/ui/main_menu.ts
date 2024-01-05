@@ -29,8 +29,9 @@ export default class MainMenu extends Phaser.Scene {
 
     play.on("pointerdown", () => {
       if (this.callback) {
-        console.log("here now 2");
-        this.callback();
+        // this.callback();
+        this.scene.stop('main_menu')
+        this.scene.launch('continue', {callback: this.callback})
       }
     });
 
