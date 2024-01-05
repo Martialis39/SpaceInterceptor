@@ -54,10 +54,11 @@ export const vBoxContainer = (bindings: HBoxBindings) => {
     bindings.children.forEach((go) => {
       go.x = containerWidth / 2 - go.displayWidth / 2;
     });
+
+    container.height = containerHeight;
+    container.width = containerWidth;
   }
 
-  container.height = containerHeight;
-  container.width = containerWidth;
   return container;
 };
 
