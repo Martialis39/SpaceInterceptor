@@ -10,18 +10,25 @@ import MainMenu from "./ui/main_menu.ts";
 import Continue from "./ui/continue.ts";
 import LevelOver from "./ui/index.ts";
 import Transition from "./ui/transition.ts";
-// Levels 
+// Levels
 import Level from "./levels/level.ts";
 import Level_01 from "./levels/level_01.ts";
 import Level_02 from "./levels/level_02.ts";
 import Level_03 from "./levels/level_03.ts";
 import Level_04 from "./levels/level_04.ts";
-import { Level_05, Level_06, Level_07, Level_08, Level_09, Level_10 } from "./levels/remaining_levels.ts";
+import {
+  Level_05,
+  Level_06,
+  Level_07,
+  Level_08,
+  Level_09,
+  Level_10,
+} from "./levels/remaining_levels.ts";
 
 class Main extends Phaser.Scene {
   index;
 
-  levels = levels
+  levels = levels;
 
   constructor() {
     super("main");
@@ -57,10 +64,10 @@ class Main extends Phaser.Scene {
   }
 
   launchFirstLevel(index?: number) {
-    if(index){
-        this.index = index
+    if (index) {
+      this.index = index;
     } else {
-        this.index = 0;
+      this.index = 0;
     }
     this.scene.launch("transition", {
       direction: TransitionDirection.IN,
@@ -85,7 +92,7 @@ class Main extends Phaser.Scene {
           });
         this.scene.stop("level_over_ui");
         this.index += 1;
-        persistLevel(String(this.index))
+        persistLevel(String(this.index));
       },
     });
   }
@@ -140,7 +147,7 @@ const config = {
     Level_07,
     Level_08,
     Level_09,
-    Level_10
+    Level_10,
   ],
   physics: {
     default: "arcade",

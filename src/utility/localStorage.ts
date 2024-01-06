@@ -12,14 +12,14 @@ export const setInLocalStorage = (key, message) => {
 };
 
 export const persistLevel = (key: string) => {
-  if(localStorage){
+  if (localStorage) {
     localStorage.setItem(LS.LEVEL_DATA, key);
   }
-}
+};
 
 export const getPersistedLevel = () => {
-  if(localStorage){
-   return localStorage.getItem(LS.LEVEL_DATA);
+  if (localStorage) {
+    return localStorage.getItem(LS.LEVEL_DATA);
   }
-  return null
-}
+  return null;
+};

@@ -30,14 +30,13 @@ export default class MainMenu extends Phaser.Scene {
 
     play.on("pointerdown", () => {
       if (this.callback) {
-        this.scene.stop('main_menu')
-        const persistedLevel = getPersistedLevel()
-        if(persistedLevel){
-          this.scene.launch('continue', {callback: this.callback})
+        this.scene.stop("main_menu");
+        const persistedLevel = getPersistedLevel();
+        if (persistedLevel) {
+          this.scene.launch("continue", { callback: this.callback });
         } else {
-          this.callback(0)
+          this.callback(0);
         }
-
       }
     });
 
