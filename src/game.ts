@@ -24,17 +24,18 @@ import {
   Level_09,
   Level_10,
 } from "./levels/remaining_levels.ts";
+import { LevelManager } from "./levels/levelManager.ts";
 
 class Main extends Phaser.Scene {
   index;
 
   levels = levels;
+  levelManager: LevelManager;
 
   constructor() {
     super("main");
     this.index = 0;
-    this.onLevelOver = this.onLevelOver.bind(this);
-    this.launchFirstLevel = this.launchFirstLevel.bind(this);
+    this.levelManager = new LevelManager(this);
   }
 
   preload() {
@@ -51,56 +52,10 @@ class Main extends Phaser.Scene {
     this.load.audio(SFX.MENU.CONFIRM, "assets/sfx/blip_01.wav");
   }
 
-  debugLoadLevel(index) {
-    if (this.levels[index]) {
-      this.scene.stop(this.levels[this.index]).launch(this.levels[index], {
-        levelString: levelsStrings[index],
-        stars: [],
-        callback: this.onLevelOver,
-      });
-
-      this.index = index;
-    }
-  }
-
-  launchFirstLevel(index?: number) {
-    if (index) {
-      this.index = index;
-    } else {
-      this.index = 0;
-    }
-    this.scene.launch("transition", {
-      direction: TransitionDirection.IN,
-      callback: () => {
-        this.scene.stop("main_menu");
-        this.scene.launch("score");
-        this.scene.launch(this.levels[this.index], {
-          callback: this.onLevelOver,
-        });
-      },
-      fadeOutCallback: () => {},
-    });
-  }
-
-  onLevelOver() {
-    this.scene.launch("level_over_ui", {
-      callback: () => {
-        this.scene
-          .stop(this.levels[this.index])
-          .launch(this.levels[this.index + 1], {
-            callback: this.onLevelOver,
-          });
-        this.scene.stop("level_over_ui");
-        this.index += 1;
-        persistLevel(String(this.index));
-      },
-    });
-  }
-
   create() {
     this.scene.launch("main_menu", {
       callback: (index) => {
-        this.launchFirstLevel(index);
+        this.levelManager.launchFirstLevel(index);
       },
       game,
     });
