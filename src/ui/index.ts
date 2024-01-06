@@ -2,16 +2,14 @@ import * as Phaser from "phaser";
 import { easeInOutBack } from "../utility/easing";
 import { SPRITES } from "../utility/constants";
 import { hBoxContainer } from "../utility/containers";
+import { Signals } from "../utility/signals";
 
 export default class LevelOver extends Phaser.Scene {
   container;
-  callback;
+  signals;
   constructor() {
     super("level_over_ui");
-  }
-
-  init(data) {
-    this.callback = data.callback;
+    this.signals = Signals;
   }
 
   create() {
@@ -33,7 +31,7 @@ export default class LevelOver extends Phaser.Scene {
     });
 
     play.on("pointerdown", () => {
-      this.callback();
+      this.signals.emit("loadNextLevel");
     });
 
     hbox.x = this.cameras.main.width / 2 - hbox.width / 2;

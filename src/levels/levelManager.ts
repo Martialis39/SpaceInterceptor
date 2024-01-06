@@ -2,16 +2,24 @@ import { TransitionDirection } from "../types";
 import { levels } from "../utility/constants";
 import { levelsStrings } from "../utility/levelsAsString";
 import { persistLevel } from "../utility/localStorage";
+import { Signals } from "../utility/signals";
 
 export class LevelManager {
   main;
   private currentLevel = 0;
   levels = levels;
+  signals;
   constructor(main) {
     this.main = main;
     this.onLevelOver = this.onLevelOver.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.launchFirstLevel = this.launchFirstLevel.bind(this);
+    this.signals = Signals;
+
+    this.signals.addListener("loadNextLevel", () => {
+      console.log("Got loadNextLevelSignal");
+      this.loadNext();
+    });
   }
 
   launchFirstLevel(index) {
@@ -59,8 +67,6 @@ export class LevelManager {
   }
 
   onLevelOver() {
-    this.main.scene.launch("level_over_ui", {
-      callback: this.loadNext,
-    });
+    this.main.scene.launch("level_over_ui");
   }
 }
