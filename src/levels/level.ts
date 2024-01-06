@@ -17,10 +17,10 @@ export default class Level extends Phaser.Scene {
   starObjects = [];
   starsToSpawn;
   callback;
-  parent;
   levelKey;
   activeSatellite;
   shipIsMoving;
+  scoreScene;
 
   constructor(key) {
     super(key);
@@ -42,15 +42,21 @@ export default class Level extends Phaser.Scene {
   }
 
   destroyStar(star) {
+    console.log("starsToSpawn", this.starsToSpawn);
+    console.log("starObjects", this.starObjects);
+    if (!star.active) {
+      console.log("INFO: star already disposed");
+      return;
+    }
     this.starsToSpawn -= 1;
-    if (this.starsToSpawn === 0 && this.starObjects.length === 0) {
+    this.starObjects = this.starObjects.filter((s) => s !== star);
+    if (this.starsToSpawn <= 0 && this.starObjects.length <= 0) {
       this.callback();
     }
     star.destroy();
   }
 
   update(): void {
-
     // Destroy stars that are out of view
     if (this.starObjects.length > 0) {
       this.starObjects.forEach((star) => {
@@ -73,7 +79,6 @@ export default class Level extends Phaser.Scene {
             alpha: 0,
             duration: 200,
             onComplete: () => {
-              this.starObjects = this.starObjects.filter((s) => s !== star);
               this.destroyStar(star);
             },
           });
@@ -81,7 +86,6 @@ export default class Level extends Phaser.Scene {
       });
     }
   }
-
 
   create() {
     const levelAsString = parseLevelString({
@@ -94,6 +98,9 @@ export default class Level extends Phaser.Scene {
     if (this.stars) {
       this.stars.forEach((star: Star) => {
         this.time.delayedCall(star.time, () => {
+          if (!this.scoreScene) {
+            this.scoreScene = this.scene.get("score");
+          }
           const s = this.physics.add.sprite(
             star.position.x,
             star.position.y,
@@ -101,15 +108,11 @@ export default class Level extends Phaser.Scene {
           );
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
 
-          this.time.delayedCall(3000, () => {
-            if (s && s.active) {
-              this.starObjects.push(s);
-            }
-          });
+          this.starObjects.push(s);
+
           this.physics.add.collider(this.ship, s, (_ship, starCollider) => {
-            this.starObjects = this.starObjects.filter(
-              (s) => s !== starCollider,
-            );
+            this.scoreScene.setScore();
+            this.ship.body.setVelocity(0);
             this.destroyStar(starCollider);
           });
         });
@@ -119,6 +122,7 @@ export default class Level extends Phaser.Scene {
     const things = getBasesFromStrings(levelAsString);
     const s = createBases(this, things);
     const shipSprite = this.physics.add.sprite(s[0].x, s[0].y, "ship");
+
     shipSprite.scale = 0.5;
     this.ship = shipSprite;
 
@@ -133,16 +137,15 @@ export default class Level extends Phaser.Scene {
 
     // Creating the spawners
     if (process.env.DEBUG) {
-
       spawners.forEach((spawner) => {
         const s = this.add
           .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
           .setInteractive();
         s.on("pointerdown", () => {
           // get the time key
-          const time = Number(localStorage.getItem(LS.TIMER))
-          if(!time){
-            throw new Error("No timer in LS")
+          const time = Number(localStorage.getItem(LS.TIMER));
+          if (!time) {
+            throw new Error("No timer in LS");
           }
           console.log("This is level key", this.levelKey);
           setInLocalStorage(this.levelKey, {
@@ -196,7 +199,7 @@ export default class Level extends Phaser.Scene {
               duration: 200,
               onComplete: () => {
                 this.shipIsMoving = false;
-                this.ship.body.setVelocity(0)
+                this.ship.body.setVelocity(0);
               },
             });
           },

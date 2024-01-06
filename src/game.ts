@@ -22,6 +22,7 @@ class Main extends Phaser.Scene {
   index;
 
   levels = levels
+
   constructor() {
     super("main");
     this.index = 0;

@@ -70,6 +70,6 @@ export default class Score extends Phaser.Scene {
     console.log("st is ", this.scoreText);
     this.scoreText.text = `Score: ${this.score}`;
     this.resizeContainer();
-    console.log("Got me");
+    console.log("Called setScore");
   }
 }
