@@ -8,24 +8,25 @@ export class LevelManager {
   main;
   private currentLevel = 0;
   levels = levels;
-  signals;
+  eventBus;
   constructor(main) {
     this.main = main;
     this.onLevelOver = this.onLevelOver.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.launchFirstLevel = this.launchFirstLevel.bind(this);
-    this.signals = eventBus;
+    this.eventBus = eventBus;
 
-    this.signals.addListener("loadNextLevel", () => {
+    this.eventBus.addListener("loadNextLevel", () => {
+      console.log("Called loadNextLevel");
       this.loadNext();
     });
 
-    this.signals.addListener("loadFirstLevel", ([index]) => {
+    this.eventBus.addListener("loadFirstLevel", ([index]) => {
       console.log("Index is ", index);
       this.launchFirstLevel(Number(index));
     });
 
-    this.signals.addListener("levelOver", () => {
+    this.eventBus.addListener("levelOver", () => {
       console.log("Called on levelOver");
       this.onLevelOver();
     });
