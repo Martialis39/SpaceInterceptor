@@ -2,16 +2,18 @@ import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
 import { SPRITES } from "../utility/constants";
 import { getPersistedLevel } from "../utility/localStorage";
+import { eventBus } from "../utility/signals";
 
 export default class Continue extends Phaser.Scene {
   callback;
+  eventBus;
 
   constructor() {
     super("continue");
   }
 
   init(data) {
-    this.callback = data.callback;
+    this.eventBus = eventBus;
   }
 
   create() {
@@ -33,7 +35,8 @@ export default class Continue extends Phaser.Scene {
     play.on("pointerdown", () => {
       this.scene.stop("continue");
       const persistedLevel = getPersistedLevel();
-      this.callback(persistedLevel);
+      console.log("persisted level is", persistedLevel);
+      eventBus.emit("loadFirstLevel", [persistedLevel]);
     });
 
     const quit = this.add
@@ -44,7 +47,7 @@ export default class Continue extends Phaser.Scene {
 
     quit.on("pointerdown", () => {
       this.scene.stop("continue");
-      this.callback(0);
+      eventBus.emit("loadFirstLevel", [0]);
     });
 
     var continueText = this.add.text(0, 0, "Continue", {

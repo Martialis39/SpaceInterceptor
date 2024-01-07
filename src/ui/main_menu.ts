@@ -5,19 +5,17 @@ import { easeInOutBack } from "../utility/easing";
 import { getPersistedLevel } from "../utility/localStorage";
 
 export default class MainMenu extends Phaser.Scene {
-  callback;
-
   constructor() {
     super("main_menu");
   }
 
   preload() {
     this.load.image(SPRITES.BUTTONS.PLAY, "assets/play_button.png");
+
     this.load.image(SPRITES.BUTTONS.QUIT, "assets/cross_button.png");
   }
 
   init(data) {
-    this.callback = data.callback.bind(this);
     this.game = data.game;
   }
 
@@ -29,14 +27,14 @@ export default class MainMenu extends Phaser.Scene {
       .setScale(0.5, 0.5);
 
     play.on("pointerdown", () => {
-      if (this.callback) {
-        this.scene.stop("main_menu");
-        const persistedLevel = getPersistedLevel();
-        if (persistedLevel) {
-          this.scene.launch("continue", { callback: this.callback });
-        } else {
-          this.callback(0);
-        }
+      this.scene.stop("main_menu");
+
+      const persistedLevel = getPersistedLevel();
+
+      if (persistedLevel) {
+        this.scene.launch("continue");
+      } else {
+        this.callback(0);
       }
     });
 
@@ -60,6 +58,7 @@ export default class MainMenu extends Phaser.Scene {
 
     play.on("pointerdown", () => {
       confirmSFX.play();
+
       this.tweens.add({
         targets: play,
         y: play.y + 6,
@@ -78,6 +77,7 @@ export default class MainMenu extends Phaser.Scene {
           duration: 200,
         });
       });
+
       btn.on("pointerout", () => {
         this.tweens.add({
           targets: btn,
@@ -95,11 +95,9 @@ export default class MainMenu extends Phaser.Scene {
       color: "#fafafa",
     }; // Set your desired text style
     var text = this.add.text(0, 0, labelText, textStyle);
-
     const vbox = vBoxContainer({ children: [text, play, quit], scene: this });
     vbox.x = this.cameras.main.width / 2 - vbox.width / 2;
     vbox.y = this.cameras.main.height / 2 - vbox.height / 2;
-
     fs.x = this.cameras.main.width - fs.displayWidth;
     fs.y = 0 + fs.displayHeight;
   }

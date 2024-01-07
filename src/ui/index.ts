@@ -2,14 +2,14 @@ import * as Phaser from "phaser";
 import { easeInOutBack } from "../utility/easing";
 import { SPRITES } from "../utility/constants";
 import { hBoxContainer } from "../utility/containers";
-import { Signals } from "../utility/signals";
+import { eventBus } from "../utility/signals";
 
 export default class LevelOver extends Phaser.Scene {
   container;
   signals;
   constructor() {
     super("level_over_ui");
-    this.signals = Signals;
+    this.signals = eventBus;
   }
 
   create() {

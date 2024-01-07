@@ -1,10 +1,7 @@
 import * as Phaser from "phaser";
 import Score from "./ui/score.ts";
-import { SFX, SPRITES, levels } from "./utility/constants.ts";
+import { SFX, SPRITES } from "./utility/constants.ts";
 import { createTextInput } from "./utility/creation.ts";
-import { levelsStrings } from "./utility/levelsAsString.ts";
-import { TransitionDirection } from "./types/index.ts";
-import { persistLevel } from "./utility/localStorage.ts";
 // Menus and utility
 import MainMenu from "./ui/main_menu.ts";
 import Continue from "./ui/continue.ts";
@@ -27,15 +24,9 @@ import {
 import { LevelManager } from "./levels/levelManager.ts";
 
 class Main extends Phaser.Scene {
-  index;
-
-  levels = levels;
-  levelManager: LevelManager;
-
+  levelManager;
   constructor() {
     super("main");
-    this.index = 0;
-    this.levelManager = new LevelManager(this);
   }
 
   preload() {
@@ -43,6 +34,7 @@ class Main extends Phaser.Scene {
     this.load.image(SPRITES.BUTTONS.QUIT, "assets/cross_button.png");
     this.load.image(SPRITES.BUTTONS.FULLSCREEN, "assets/fullscreen_btn.png");
 
+    this.levelManager = new LevelManager(this);
     this.load.image(SPRITES.BACKGROUND.SPACE_01, "assets/backgrounds/bg.png");
     this.load.image(
       SPRITES.BACKGROUND.NEBULAE_01,
@@ -53,12 +45,7 @@ class Main extends Phaser.Scene {
   }
 
   create() {
-    this.scene.launch("main_menu", {
-      callback: (index) => {
-        this.levelManager.launchFirstLevel(index);
-      },
-      game,
-    });
+    this.scene.launch("main_menu");
 
     if (process.env.DEBUG) {
       createTextInput(this);
