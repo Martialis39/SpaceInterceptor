@@ -5,7 +5,6 @@ import { eventBus } from "../utility/signals";
 
 export default class Transition extends Phaser.Scene {
   direction;
-  fadeOutCallback;
   eventBus;
 
   constructor() {
@@ -15,7 +14,6 @@ export default class Transition extends Phaser.Scene {
 
   init(data) {
     this.direction = data.direction;
-    this.fadeOutCallback = data.fadeOutCallback;
     this.fadeOut = this.fadeOut.bind(this);
   }
 
@@ -30,11 +28,6 @@ export default class Transition extends Phaser.Scene {
       onUpdate: () => {
         // Update the alpha of the rectangle during the tween
         graphics.setAlpha(target.alpha);
-      },
-      onComplete: () => {
-        if (this.fadeOutCallback) {
-          this.fadeOutCallback();
-        }
       },
     });
   }
