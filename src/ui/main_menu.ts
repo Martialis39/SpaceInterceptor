@@ -3,10 +3,13 @@ import { hBoxContainer, vBoxContainer } from "../utility/containers";
 import { SFX, SPRITES } from "../utility/constants";
 import { easeInOutBack } from "../utility/easing";
 import { getPersistedLevel } from "../utility/localStorage";
+import { eventBus } from "../utility/signals";
 
 export default class MainMenu extends Phaser.Scene {
+  eventBus;
   constructor() {
     super("main_menu");
+    this.eventBus = eventBus;
   }
 
   preload() {
@@ -34,7 +37,7 @@ export default class MainMenu extends Phaser.Scene {
       if (persistedLevel) {
         this.scene.launch("continue");
       } else {
-        this.callback(0);
+        this.eventBus.emit("loadFirstLevel", [0]);
       }
     });
 

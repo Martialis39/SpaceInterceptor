@@ -5,7 +5,6 @@ import { getPersistedLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
 
 export default class Continue extends Phaser.Scene {
-  callback;
   eventBus;
 
   constructor() {

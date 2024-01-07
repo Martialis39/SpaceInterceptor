@@ -27,9 +27,6 @@ export default class Level_04 extends Level {
     super.init({
       levelString: level_4_string,
       stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }

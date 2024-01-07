@@ -10,9 +10,6 @@ export default class Level_01 extends Level {
     super.init({
       levelString: level_1_string,
       stars: [{ position: { x: 640, y: 0 }, dir: { x: 0, y: 1 }, time: 1100 }],
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }

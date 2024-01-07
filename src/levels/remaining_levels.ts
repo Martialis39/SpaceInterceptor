@@ -39,9 +39,6 @@ export class Level_05 extends Level {
     super.init({
       levelString: level_5_string,
       stars: level_5_stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }
@@ -69,9 +66,6 @@ export class Level_06 extends Level {
     super.init({
       levelString: level_6_string,
       stars: level_6_stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }
@@ -85,9 +79,6 @@ export class Level_07 extends Level {
     super.init({
       levelString: level_7_string,
       stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }
@@ -101,9 +92,6 @@ export class Level_08 extends Level {
     super.init({
       levelString: level_8_string,
       stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }
@@ -117,9 +105,6 @@ export class Level_09 extends Level {
     super.init({
       levelString: level_9_string,
       stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }
@@ -133,9 +118,6 @@ export class Level_10 extends Level {
     super.init({
       levelString: level_10_string,
       stars,
-      callback: () => {
-        data.callback();
-      },
     });
   }
 }

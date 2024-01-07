@@ -24,6 +24,11 @@ export class LevelManager {
       console.log("Index is ", index);
       this.launchFirstLevel(Number(index));
     });
+
+    this.signals.addListener("levelOver", () => {
+      console.log("Called on levelOver");
+      this.onLevelOver();
+    });
   }
 
   launchFirstLevel(index) {
@@ -37,9 +42,7 @@ export class LevelManager {
       callback: () => {
         this.main.scene.stop("main_menu");
         this.main.scene.launch("score");
-        this.main.scene.launch(this.levels[this.currentLevel], {
-          callback: this.onLevelOver,
-        });
+        this.main.scene.launch(this.levels[this.currentLevel]);
       },
       fadeOutCallback: () => {},
     });
@@ -48,9 +51,7 @@ export class LevelManager {
   loadNext() {
     this.main.scene
       .stop(this.levels[this.currentLevel])
-      .launch(this.levels[this.currentLevel + 1], {
-        callback: this.onLevelOver,
-      });
+      .launch(this.levels[this.currentLevel + 1], {});
     this.main.scene.stop("level_over_ui");
     this.currentLevel += 1;
     persistLevel(String(this.currentLevel));
@@ -63,7 +64,6 @@ export class LevelManager {
         .launch(this.levels[index], {
           levelString: levelsStrings[index],
           stars: [],
-          callback: this.onLevelOver,
         });
 
       this.currentLevel = index;

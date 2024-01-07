@@ -9,6 +9,7 @@ import { LS, directions } from "../utility/constants";
 import { setInLocalStorage } from "../utility/localStorage";
 import { Star, TransitionDirection } from "../types";
 import { easeInOutBack } from "../utility/easing";
+import { eventBus } from "../utility/signals";
 
 export default class Level extends Phaser.Scene {
   ship;
@@ -16,22 +17,23 @@ export default class Level extends Phaser.Scene {
   stars;
   starObjects = [];
   starsToSpawn;
-  callback;
   levelKey;
   activeSatellite;
   shipIsMoving;
   scoreScene;
 
+  eventBus;
+
   constructor(key) {
     super(key);
     this.destroyStar = this.destroyStar.bind(this);
     this.levelKey = key;
+    this.eventBus = eventBus;
   }
 
   init(data) {
     this.levelString = data.levelString;
     this.stars = data.stars;
-    this.callback = data.callback;
     this.starsToSpawn = this.stars.length;
   }
 
@@ -51,7 +53,7 @@ export default class Level extends Phaser.Scene {
     this.starsToSpawn -= 1;
     this.starObjects = this.starObjects.filter((s) => s !== star);
     if (this.starsToSpawn <= 0 && this.starObjects.length <= 0) {
-      this.callback();
+      this.eventBus.emit("levelOver");
     }
     star.destroy();
   }
