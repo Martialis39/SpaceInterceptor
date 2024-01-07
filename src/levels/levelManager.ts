@@ -38,14 +38,16 @@ export class LevelManager {
     } else {
       this.currentLevel = 0;
     }
+    const onFadeToBlack = () => {
+      console.log("Called onFadeToBlack");
+      this.main.scene.stop("main_menu");
+      this.main.scene.launch("score");
+      this.main.scene.launch(this.levels[this.currentLevel]);
+      this.eventBus.removeListener(onFadeToBlack);
+    };
+    this.eventBus.addListener("fadeToBlackComplete", onFadeToBlack);
     this.main.scene.launch("transition", {
       direction: TransitionDirection.IN,
-      callback: () => {
-        this.main.scene.stop("main_menu");
-        this.main.scene.launch("score");
-        this.main.scene.launch(this.levels[this.currentLevel]);
-      },
-      fadeOutCallback: () => {},
     });
   }
 

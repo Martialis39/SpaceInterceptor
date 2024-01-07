@@ -1,18 +1,19 @@
 import * as Phaser from "phaser";
 import { directions } from "../utility/constants";
 import { TransitionDirection } from "../types";
+import { eventBus } from "../utility/signals";
 
 export default class Transition extends Phaser.Scene {
-  callback;
   direction;
   fadeOutCallback;
+  eventBus;
 
   constructor() {
     super("transition");
+    this.eventBus = eventBus;
   }
 
   init(data) {
-    this.callback = data.callback;
     this.direction = data.direction;
     this.fadeOutCallback = data.fadeOutCallback;
     this.fadeOut = this.fadeOut.bind(this);
@@ -67,7 +68,7 @@ export default class Transition extends Phaser.Scene {
         graphics.setAlpha(target.alpha);
       },
       onComplete: () => {
-        this.callback();
+        this.eventBus.emit("fadeToBlackComplete");
         this.fadeOut(graphics);
       },
     });
