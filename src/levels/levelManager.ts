@@ -5,12 +5,14 @@ import { persistLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
 
 export class LevelManager {
-  main;
+  game: Phaser.Game;
+  main: Phaser.Scene;
   private currentLevel = 0;
   levels = levels;
   eventBus;
-  constructor(main) {
+  constructor(main: Phaser.Scene, game) {
     this.main = main;
+    this.game = game;
     this.onLevelOver = this.onLevelOver.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.launchFirstLevel = this.launchFirstLevel.bind(this);
@@ -20,6 +22,7 @@ export class LevelManager {
       console.log("Called loadNextLevel");
       if (this.currentLevel + 1 === this.levels.length) {
         console.log("INFO: This was the last level");
+        game.scene.getScenes().forEach((s) => s.scene.stop());
         this.main.scene.launch("end_screen");
       } else {
         this.loadNext();

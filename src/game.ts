@@ -36,7 +36,7 @@ class Main extends Phaser.Scene {
     this.load.image(SPRITES.BUTTONS.QUIT, "assets/cross_button.png");
     this.load.image(SPRITES.BUTTONS.HOW_TO_PLAY, "assets/question_btn.png");
 
-    this.levelManager = new LevelManager(this);
+    this.levelManager = new LevelManager(this, game);
     this.load.image(SPRITES.BACKGROUND.SPACE_01, "assets/backgrounds/bg.png");
     this.load.image(
       SPRITES.BACKGROUND.NEBULAE_01,
@@ -71,7 +71,7 @@ class Main extends Phaser.Scene {
 
 const config = {
   type: Phaser.AUTO,
-  backgroundColor: "#125555",
+  backgroundColor: "#000",
   width: 1280,
   height: 720,
   scene: [
