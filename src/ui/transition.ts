@@ -19,7 +19,7 @@ export default class Transition extends Phaser.Scene {
 
   fadeOut(graphics) {
     const target = { alpha: 1 };
-    this.scene.bringToTop();
+
     this.tweens.add({
       targets: target,
       alpha: 0,
@@ -50,6 +50,7 @@ export default class Transition extends Phaser.Scene {
     graphics.fillRectShape(rect);
 
     graphics.setDepth(100);
+    this.scene.bringToTop();
 
     this.tweens.add({
       targets: target,

@@ -41,7 +41,9 @@ export default class MainMenu extends Phaser.Scene {
       .setAlpha(1)
       .setScale(0.5, 0.5);
 
-    howToPlay.on("pointedown", () => {});
+    howToPlay.on("pointerdown", () => {
+      this.eventBus.emit("loadHowToPlayPage", [0]);
+    });
 
     const fs = this.add
       .sprite(0, 0, SPRITES.BUTTONS.FULLSCREEN)

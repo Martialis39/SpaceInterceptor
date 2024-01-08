@@ -36,6 +36,18 @@ export class LevelManager {
       console.log("INFO: Current level is ", this.currentLevel);
       this.onLevelOver();
     });
+
+    const loadHowToPlayListener = () => {
+      this.loadHowToPlay();
+      this.eventBus.removeListener(loadHowToPlayListener);
+    };
+
+    this.eventBus.addListener("loadHowToPlayPage", loadHowToPlayListener);
+  }
+
+  loadHowToPlay() {
+    this.main.scene.stop("main_menu");
+    this.main.scene.launch("how_to_play");
   }
 
   launchFirstLevel(index) {
@@ -47,6 +59,7 @@ export class LevelManager {
     const onFadeToBlack = () => {
       console.log("Called onFadeToBlack");
       this.main.scene.stop("main_menu");
+      this.main.scene.stop("how_to_play");
       this.main.scene.launch("score");
       this.main.scene.launch(this.levels[this.currentLevel]);
       this.eventBus.removeListener(onFadeToBlack);

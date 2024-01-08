@@ -23,6 +23,7 @@ import {
 } from "./levels/remaining_levels.ts";
 import { LevelManager } from "./levels/levelManager.ts";
 import EndScreen from "./ui/end_screen.ts";
+import HowToPlay from "./ui/how_to_play.ts";
 
 class Main extends Phaser.Scene {
   levelManager;
@@ -79,6 +80,7 @@ const config = {
     Level,
     LevelOver,
     Transition,
+    HowToPlay,
     EndScreen,
     Continue,
     Score,
