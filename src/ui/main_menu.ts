@@ -12,12 +12,6 @@ export default class MainMenu extends Phaser.Scene {
     this.eventBus = eventBus;
   }
 
-  preload() {
-    this.load.image(SPRITES.BUTTONS.PLAY, "assets/play_button.png");
-
-    this.load.image(SPRITES.BUTTONS.QUIT, "assets/cross_button.png");
-  }
-
   init(data) {
     this.game = data.game;
   }
@@ -41,11 +35,13 @@ export default class MainMenu extends Phaser.Scene {
       }
     });
 
-    const quit = this.add
-      .sprite(0, 0, SPRITES.BUTTONS.QUIT)
+    const howToPlay = this.add
+      .sprite(0, 0, SPRITES.BUTTONS.HOW_TO_PLAY)
       .setInteractive()
       .setAlpha(1)
       .setScale(0.5, 0.5);
+
+    howToPlay.on("pointedown", () => {});
 
     const fs = this.add
       .sprite(0, 0, SPRITES.BUTTONS.FULLSCREEN)
@@ -71,7 +67,7 @@ export default class MainMenu extends Phaser.Scene {
       });
     });
 
-    [play, quit, fs].forEach((btn) => {
+    [play, howToPlay, fs].forEach((btn) => {
       btn.on("pointerover", () => {
         this.tweens.add({
           targets: btn,
@@ -98,7 +94,10 @@ export default class MainMenu extends Phaser.Scene {
       color: "#fafafa",
     }; // Set your desired text style
     var text = this.add.text(0, 0, labelText, textStyle);
-    const vbox = vBoxContainer({ children: [text, play, quit], scene: this });
+    const vbox = vBoxContainer({
+      children: [text, play, howToPlay],
+      scene: this,
+    });
     vbox.x = this.cameras.main.width / 2 - vbox.width / 2;
     vbox.y = this.cameras.main.height / 2 - vbox.height / 2;
     fs.x = this.cameras.main.width - fs.displayWidth;

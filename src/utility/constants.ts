@@ -33,6 +33,7 @@ export const SPRITES = {
     PLAY: "play-btn",
     QUIT: "quit-btn",
     FULLSCREEN: "fullscreen-btn",
+    HOW_TO_PLAY: "how-to-play-btn",
   },
   BACKGROUND: {
     SPACE_01: "bg",
