@@ -18,7 +18,12 @@ export class LevelManager {
 
     this.eventBus.addListener("loadNextLevel", () => {
       console.log("Called loadNextLevel");
-      this.loadNext();
+      if (this.currentLevel + 1 === this.levels.length) {
+        console.log("INFO: This was the last level");
+        this.main.scene.launch("end_screen");
+      } else {
+        this.loadNext();
+      }
     });
 
     this.eventBus.addListener("loadFirstLevel", ([index]) => {
@@ -27,7 +32,8 @@ export class LevelManager {
     });
 
     this.eventBus.addListener("levelOver", () => {
-      console.log("Called on levelOver");
+      console.log("INFO: Called on levelOver");
+      console.log("INFO: Current level is ", this.currentLevel);
       this.onLevelOver();
     });
   }
