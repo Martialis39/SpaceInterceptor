@@ -119,6 +119,13 @@ export default class Level extends Phaser.Scene {
             "star",
           );
 
+          this.tweens.add({
+            targets: s,
+            angle: 360, // Rotate by 360 degrees
+            duration: 5000,
+            repeat: -1, // Repeat indefinitely (-1 means no limit)
+          });
+
           s.alpha = 1;
 
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
@@ -199,6 +206,12 @@ export default class Level extends Phaser.Scene {
     }
 
     s.forEach((sat) => {
+      this.tweens.add({
+        targets: s,
+        angle: 360, // Rotate by 360 degrees
+        duration: 8000 + Phaser.Math.Between(1, 4) * 1000,
+        repeat: -1, // Repeat indefinitely (-1 means no limit)
+      });
       sat.on("pointerdown", () => {
         // Ignore clicks on active satellite and when ship is already moving
         if (sat === this.activeSatellite || this.shipIsMoving) {
