@@ -38,9 +38,9 @@ export default class Level extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("satellite", "assets/satellite.png");
-    this.load.image("ship", "assets/ship.png");
-    this.load.image("star", "assets/star.png");
+    this.load.image("satellite", "assets/fancy_satellite.png");
+    this.load.image("ship", "assets/round_ship.png");
+    this.load.image("star", "assets/bright_star.png");
   }
 
   destroyStar(star) {
