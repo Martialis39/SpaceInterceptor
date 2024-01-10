@@ -44,49 +44,59 @@ export default class Level extends Phaser.Scene {
     this.load.image("star", "assets/bright_star.png");
   }
 
-  destroyStar(star) {
-    console.log("starsToSpawn", this.starsToSpawn);
-    console.log("starObjects", this.starObjects);
-    if (!star.active) {
+  destroyStar(starObject) {
+    if (!starObject.star.active) {
       console.log("INFO: star already disposed");
       return;
     }
     this.starsToSpawn -= 1;
-    this.starObjects = this.starObjects.filter((s) => s !== star);
+    this.starObjects = this.starObjects.filter(
+      (s) => s.star !== starObject.star,
+    );
     if (this.starsToSpawn <= 0 && this.starObjects.length <= 0) {
       this.eventBus.emit("levelOver");
     }
-    star.destroy();
+    starObject.star.destroy();
+    starObject.particles.destroy();
   }
 
   update(): void {
     // Destroy stars that are out of view
     if (this.starObjects.length > 0) {
-      this.starObjects.forEach((star) => {
-        // Get the bounds of the game camera
-        const cameraBounds = new Phaser.Geom.Rectangle(
-          0,
-          0,
-          this.cameras.main.width,
-          this.cameras.main.height,
-        );
+      this.starObjects
+        .filter((so) => so.isBeingDestroyed === false)
+        .forEach((starObject) => {
+          // Get the bounds of the game camera
+          const { star, particles } = starObject;
+          const cameraBounds = new Phaser.Geom.Rectangle(
+            0,
+            0,
+            this.cameras.main.width,
+            this.cameras.main.height,
+          );
 
-        if (
-          !Phaser.Geom.Rectangle.ContainsPoint(cameraBounds, {
-            x: star.x,
-            y: star.y,
-          } as Phaser.Geom.Point)
-        ) {
-          this.tweens.add({
-            targets: star,
-            alpha: 0,
-            duration: 200,
-            onComplete: () => {
-              this.destroyStar(star);
-            },
-          });
-        }
-      });
+          if (
+            !Phaser.Geom.Rectangle.ContainsPoint(cameraBounds, {
+              x: starObject.star.x,
+              y: starObject.star.y,
+            } as Phaser.Geom.Point)
+          ) {
+            starObject.isBeingDestroyed = true;
+            this.tweens.add({
+              targets: particles,
+              alpha: 0,
+              duration: 80,
+            });
+            this.tweens.add({
+              targets: star,
+              alpha: 0,
+              duration: 100,
+              onComplete: () => {
+                this.destroyStar(starObject);
+              },
+            });
+          }
+        });
     }
   }
 
@@ -110,6 +120,9 @@ export default class Level extends Phaser.Scene {
             star.position.y,
             "star",
           );
+
+          s.alpha = 1;
+
           const particles = this.add.particles(0, 0, "star", {
             speed: { min: 12, max: 24 },
             lifespan: 1200,
@@ -122,20 +135,34 @@ export default class Level extends Phaser.Scene {
             gravityX: star.dir.x * 100 * -1,
           });
 
-          this.particles.push(particles);
-
-          console.log("Parts are ", particles);
-
-          window.p = particles;
-
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
 
-          this.starObjects.push(s);
+          const starObject = {
+            star: s,
+            particles,
+            isBeingDestroyed: false,
+          };
+          this.starObjects.push(starObject);
 
-          this.physics.add.collider(this.ship, s, (_ship, starCollider) => {
-            this.scoreScene.setScore();
+          this.physics.add.collider(this.ship, s, () => {
             this.ship.body.setVelocity(0);
-            this.destroyStar(starCollider);
+            if (!starObject.isBeingDestroyed) {
+              starObject.isBeingDestroyed = true;
+              this.tweens.add({
+                targets: particles,
+                alpha: 0,
+                duration: 80,
+              });
+              this.tweens.add({
+                targets: starObject.star,
+                alpha: 0,
+                duration: 100,
+                onComplete: () => {
+                  this.destroyStar(starObject);
+                  this.scoreScene.setScore();
+                },
+              });
+            }
           });
         });
       });
