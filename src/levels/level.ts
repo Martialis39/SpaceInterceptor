@@ -23,6 +23,7 @@ export default class Level extends Phaser.Scene {
   scoreScene;
 
   eventBus;
+  particles = [];
 
   constructor(key) {
     super(key);
@@ -103,11 +104,30 @@ export default class Level extends Phaser.Scene {
           if (!this.scoreScene) {
             this.scoreScene = this.scene.get("score");
           }
+
           const s = this.physics.add.sprite(
             star.position.x,
             star.position.y,
             "star",
           );
+          const particles = this.add.particles(0, 0, "star", {
+            speed: { min: 12, max: 24 },
+            lifespan: 1200,
+            scale: { start: 1, end: 0 },
+            quantity: 1,
+            frequency: 250,
+            follow: s,
+            alpha: 1,
+            gravityY: star.dir.y * 100 * -1,
+            gravityX: star.dir.x * 100 * -1,
+          });
+
+          this.particles.push(particles);
+
+          console.log("Parts are ", particles);
+
+          window.p = particles;
+
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
 
           this.starObjects.push(s);
