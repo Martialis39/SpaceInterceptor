@@ -5,7 +5,6 @@ export default class Score extends Phaser.Scene {
   container;
   scoreText;
   box;
-
   constructor() {
     super("score");
     this.score = 0;

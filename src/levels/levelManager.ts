@@ -7,9 +7,13 @@ import { eventBus } from "../utility/signals";
 export class LevelManager {
   game: Phaser.Game;
   main: Phaser.Scene;
-  private currentLevel = 0;
   levels = levels;
   eventBus;
+  points;
+  starsSeen = 0;
+
+  private currentLevel = 0;
+
   constructor(main: Phaser.Scene, game) {
     this.main = main;
     this.game = game;
@@ -18,8 +22,14 @@ export class LevelManager {
     this.launchFirstLevel = this.launchFirstLevel.bind(this);
     this.eventBus = eventBus;
 
+    this.eventBus.addListener("updateStarsSeen", ([payload]) => {
+      console.log("INFO: stars seen updated by", payload);
+      this.starsSeen += payload;
+      console.log("INFO: Now its", this.starsSeen);
+    });
+
     this.eventBus.addListener("loadNextLevel", () => {
-      console.log("Called loadNextLevel");
+      console.log("INFO: Called loadNextLevel");
       if (this.currentLevel + 1 === this.levels.length) {
         console.log("INFO: This was the last level");
         game.scene.getScenes().forEach((s) => s.scene.stop());
@@ -30,7 +40,7 @@ export class LevelManager {
     });
 
     this.eventBus.addListener("loadFirstLevel", ([index]) => {
-      console.log("Index is ", index);
+      console.log("INFO: Index is ", index);
       this.launchFirstLevel(Number(index));
     });
 
@@ -60,7 +70,7 @@ export class LevelManager {
       this.currentLevel = 0;
     }
     const onFadeToBlack = () => {
-      console.log("Called onFadeToBlack");
+      console.log("INFO: Called onFadeToBlack");
       this.main.scene.stop("main_menu");
       this.main.scene.stop("how_to_play");
       this.main.scene.launch("score");

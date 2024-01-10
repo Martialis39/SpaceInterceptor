@@ -35,12 +35,17 @@ export default class Level extends Phaser.Scene {
     this.levelString = data.levelString;
     this.stars = data.stars;
     this.starsToSpawn = this.stars.length;
+    this.eventBus.emit("updateStarsSeen", [this.starsToSpawn]);
   }
 
   preload() {
     this.load.image("satellite", "assets/fancy_satellite.png");
     this.load.image("ship", "assets/round_ship.png");
     this.load.image("star", "assets/bright_star.png");
+  }
+
+  getStarsAmount() {
+    return this.stars.length;
   }
 
   destroyStar(starObject) {
