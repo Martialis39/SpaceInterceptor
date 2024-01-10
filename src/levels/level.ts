@@ -23,7 +23,6 @@ export default class Level extends Phaser.Scene {
   scoreScene;
 
   eventBus;
-  particles = [];
 
   constructor(key) {
     super(key);
@@ -57,7 +56,6 @@ export default class Level extends Phaser.Scene {
       this.eventBus.emit("levelOver");
     }
     starObject.star.destroy();
-    starObject.particles.destroy();
   }
 
   update(): void {
@@ -67,7 +65,7 @@ export default class Level extends Phaser.Scene {
         .filter((so) => so.isBeingDestroyed === false)
         .forEach((starObject) => {
           // Get the bounds of the game camera
-          const { star, particles } = starObject;
+          const { star } = starObject;
           const cameraBounds = new Phaser.Geom.Rectangle(
             0,
             0,
@@ -82,11 +80,6 @@ export default class Level extends Phaser.Scene {
             } as Phaser.Geom.Point)
           ) {
             starObject.isBeingDestroyed = true;
-            this.tweens.add({
-              targets: particles,
-              alpha: 0,
-              duration: 80,
-            });
             this.tweens.add({
               targets: star,
               alpha: 0,
@@ -123,23 +116,10 @@ export default class Level extends Phaser.Scene {
 
           s.alpha = 1;
 
-          const particles = this.add.particles(0, 0, "star", {
-            speed: { min: 12, max: 24 },
-            lifespan: 1200,
-            scale: { start: 1, end: 0 },
-            quantity: 1,
-            frequency: 250,
-            follow: s,
-            alpha: 1,
-            gravityY: star.dir.y * 100 * -1,
-            gravityX: star.dir.x * 100 * -1,
-          });
-
           s.setVelocity(star.dir.x * 100, star.dir.y * 100);
 
           const starObject = {
             star: s,
-            particles,
             isBeingDestroyed: false,
           };
           this.starObjects.push(starObject);
@@ -147,12 +127,19 @@ export default class Level extends Phaser.Scene {
           this.physics.add.collider(this.ship, s, () => {
             this.ship.body.setVelocity(0);
             if (!starObject.isBeingDestroyed) {
-              starObject.isBeingDestroyed = true;
-              this.tweens.add({
-                targets: particles,
-                alpha: 0,
-                duration: 80,
+              const explosion = this.add.particles(0, 0, "star", {
+                lifespan: 400,
+                speed: { min: 500, max: 740 },
+                scale: { start: 0.8, end: 0 },
+                gravityY: 150,
+                blendMode: "ADD",
+                emitting: false,
               });
+              explosion.setX(starObject.star.body.x);
+              explosion.setY(starObject.star.body.y);
+
+              explosion.explode(8);
+              starObject.isBeingDestroyed = true;
               this.tweens.add({
                 targets: starObject.star,
                 alpha: 0,
