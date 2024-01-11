@@ -45,6 +45,10 @@ export const SFX = {
   MENU: {
     CONFIRM: "menu-confirm",
   },
+  SHIP: {
+    TURN: "ship-turn",
+    MOVE: "ship-move",
+  },
 };
 
 export const LS = {

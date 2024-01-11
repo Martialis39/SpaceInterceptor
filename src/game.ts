@@ -45,6 +45,8 @@ class Main extends Phaser.Scene {
     );
 
     this.load.audio(SFX.MENU.CONFIRM, "assets/sfx/blip_01.wav");
+    this.load.audio(SFX.SHIP.TURN, "assets/sfx/spaceEngineSmall_000.ogg");
+    this.load.audio(SFX.SHIP.MOVE, "assets/sfx/laserSmall_003.ogg");
   }
 
   create() {
