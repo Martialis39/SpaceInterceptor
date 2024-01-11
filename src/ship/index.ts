@@ -44,7 +44,7 @@ export default class Ship {
     // console.log("What is ", what);
   }
 
-  rotateTo(angleDegrees) {
+  rotateTo(angleDegrees: number) {
     // Create a tween to smoothly rotate the player to face the target
     // this.turnSound.play();
     const tweenPromise = new Promise((resolve) => {
@@ -63,7 +63,7 @@ export default class Ship {
     return tweenPromise;
   }
 
-  fly(target, cb?) {
+  fly(target: Phaser.GameObjects.Image, cb?: Function) {
     // Fly to target
     this.moveSound.play();
     const tweenPromise = new Promise((resolve) => {
