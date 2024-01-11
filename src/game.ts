@@ -48,7 +48,7 @@ class Main extends Phaser.Scene {
   }
 
   create() {
-    this.scene.launch("main_menu");
+    this.scene.launch("main_menu", { game });
 
     if (process.env.DEBUG) {
       createTextInput(this);
@@ -69,6 +69,8 @@ class Main extends Phaser.Scene {
     });
   }
 }
+
+const debug = process.env.DEBUG;
 
 const config = {
   type: Phaser.AUTO,
@@ -98,7 +100,7 @@ const config = {
   ],
   physics: {
     default: "arcade",
-    arcade: { debug: true },
+    arcade: { debug: debug },
   },
   scale: {
     mode: Phaser.Scale.FIT,
