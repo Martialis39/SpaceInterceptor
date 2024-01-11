@@ -44,35 +44,41 @@ export default class Ship {
     // console.log("What is ", what);
   }
 
-  rotateTo(angleDegrees, finalTarget) {
+  rotateTo(angleDegrees) {
     // Create a tween to smoothly rotate the player to face the target
     // this.turnSound.play();
-    this.scene.tweens.add({
-      targets: this.instance,
-      duration: 700, // duration in milliseconds
-      angle: angleDegrees + 90,
-      ease: easeInOutBack,
-      onComplete: () => {
-        this.turnSound.stop();
-        this.fly(finalTarget, () => {
-          this.isMoving = false;
-          this.instance.body.setVelocity(0);
-        });
-      },
+    const tweenPromise = new Promise((resolve) => {
+      this.scene.tweens.add({
+        targets: this.instance,
+        duration: 700, // duration in milliseconds
+        angle: angleDegrees + 90,
+        ease: easeInOutBack,
+        onComplete: () => {
+          this.turnSound.stop();
+          resolve(undefined);
+        },
+      });
     });
+
+    return tweenPromise;
   }
 
   fly(target, cb?) {
     // Fly to target
     this.moveSound.play();
-    this.scene.tweens.add({
-      targets: this.instance,
-      y: target.y,
-      x: target.x,
-      duration: 200,
-      onComplete: () => {
-        if (cb) cb();
-      },
+    const tweenPromise = new Promise((resolve) => {
+      this.scene.tweens.add({
+        targets: this.instance,
+        y: target.y,
+        x: target.x,
+        duration: 200,
+        onComplete: () => {
+          if (cb) cb();
+          resolve(undefined);
+        },
+      });
     });
+
+    return tweenPromise;
   }
 }

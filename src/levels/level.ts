@@ -235,7 +235,14 @@ export default class Level extends Phaser.Scene {
         // TODO: There is a bug where the ship starts moving down
         // this occurs when the tween time is quite long
 
-        this.ship.rotateTo(angleDegrees, { x: sat.x, y: sat.y });
+        this.ship.rotateTo(angleDegrees).then(() => {
+          this.ship.fly(sat, () => {
+            this.ship.isMoving = false;
+            this.ship.instance.body.setVelocity(0);
+          });
+        });
+
+        // this.ship.rotateTo(angleDegrees, { x: sat.x, y: sat.y });
       });
     });
   }
