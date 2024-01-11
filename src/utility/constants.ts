@@ -52,6 +52,10 @@ export const SFX = {
   },
 };
 
+export const COLORS = {
+  RED: 0xff0000,
+};
+
 export const LS = {
   TIMER: "debug-timer-value",
   LEVELS: Array(levels.length)

@@ -11,6 +11,7 @@ import { Star, TransitionDirection } from "../types";
 import { easeInOutBack } from "../utility/easing";
 import { eventBus } from "../utility/signals";
 import Ship from "../ship";
+import Spawner from "../spawner";
 
 export default class Level extends Phaser.Scene {
   ship;
@@ -180,27 +181,11 @@ export default class Level extends Phaser.Scene {
 
     this.activeSatellite = s[0];
 
-    const spawners = getSpawnersFromStrings(levelAsString);
-
     // Creating the spawners
     if (process.env.DEBUG) {
+      const spawners = getSpawnersFromStrings(levelAsString);
       spawners.forEach((spawner) => {
-        const s = this.add
-          .circle(spawner.position.x, spawner.position.y, 50, 0xff0000)
-          .setInteractive();
-        s.on("pointerdown", () => {
-          // get the time key
-          const time = Number(localStorage.getItem(LS.TIMER));
-          if (!time) {
-            throw new Error("No timer in LS");
-          }
-          console.log("This is level key", this.levelKey);
-          setInLocalStorage(this.levelKey, {
-            position: spawner.position,
-            dir: spawner.dir,
-            time,
-          });
-        });
+        new Spawner(this, spawner.position, spawner.dir, this.levelKey);
       });
     }
 
