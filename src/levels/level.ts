@@ -232,9 +232,6 @@ export default class Level extends Phaser.Scene {
         // Convert the angle from radians to degrees
         var angleDegrees = Phaser.Math.RadToDeg(angle);
 
-        // TODO: There is a bug where the ship starts moving down
-        // this occurs when the tween time is quite long
-
         this.ship.rotateTo(angleDegrees).then(() => {
           this.ship.fly(sat, () => {
             this.ship.isMoving = false;
