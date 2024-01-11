@@ -10,6 +10,7 @@ import { setInLocalStorage } from "../utility/localStorage";
 import { Star, TransitionDirection } from "../types";
 import { easeInOutBack } from "../utility/easing";
 import { eventBus } from "../utility/signals";
+import Ship from "../ship";
 
 export default class Level extends Phaser.Scene {
   ship;
@@ -136,9 +137,10 @@ export default class Level extends Phaser.Scene {
           };
           this.starObjects.push(starObject);
 
-          this.physics.add.collider(this.ship, s, () => {
-            this.ship.body.setVelocity(0);
+          this.physics.add.collider(this.ship.instance, s, () => {
+            this.ship.instance.body.setVelocity(0);
             if (!starObject.isBeingDestroyed) {
+              this.ship.playCoinSound();
               const explosion = this.add.particles(0, 0, "star", {
                 lifespan: 400,
                 speed: { min: 500, max: 740 },
@@ -169,13 +171,10 @@ export default class Level extends Phaser.Scene {
 
     const things = getBasesFromStrings(levelAsString);
     const s = createBases(this, things);
-    const shipSprite = this.physics.add.sprite(s[0].x, s[0].y, "ship");
 
-    shipSprite.scale = 0.5;
-    this.ship = shipSprite;
+    const ship = new Ship(this, { x: s[0].x, y: s[0].y });
 
-    this.ship.setX(s[0].x);
-    this.ship.setY(s[0].y);
+    this.ship = ship;
 
     // initial active satellite is 0
 
@@ -214,18 +213,18 @@ export default class Level extends Phaser.Scene {
       });
       sat.on("pointerdown", () => {
         // Ignore clicks on active satellite and when ship is already moving
-        if (sat === this.activeSatellite || this.shipIsMoving) {
+        if (sat === this.activeSatellite || this.ship.isMoving) {
           return;
         }
 
-        this.shipIsMoving = true;
+        this.ship.isMoving = true;
 
         // Set active satellite
         this.activeSatellite = sat;
         // Calculate the angle between the player and the target
         var angle = Phaser.Math.Angle.Between(
-          this.ship.x,
-          this.ship.y,
+          this.ship.instance.x,
+          this.ship.instance.y,
           sat.x,
           sat.y,
         );
@@ -236,28 +235,7 @@ export default class Level extends Phaser.Scene {
         // TODO: There is a bug where the ship starts moving down
         // this occurs when the tween time is quite long
 
-        // Create a tween to smoothly rotate the player to face the target
-
-        this.tweens.add({
-          targets: this.ship,
-          duration: 700, // duration in milliseconds
-          angle: angleDegrees + 90,
-          ease: easeInOutBack, // you can use other easing functions as well
-          onComplete: () => {
-            // This function is called when the tween completes
-            console.log("Rotation completed!");
-            this.tweens.add({
-              targets: this.ship,
-              y: sat.y,
-              x: sat.x,
-              duration: 200,
-              onComplete: () => {
-                this.shipIsMoving = false;
-                this.ship.body.setVelocity(0);
-              },
-            });
-          },
-        });
+        this.ship.rotateTo(angleDegrees, { x: sat.x, y: sat.y });
       });
     });
   }

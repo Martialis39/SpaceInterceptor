@@ -89,7 +89,7 @@ export const createTextInput = (mainScene) => {
   ) as HTMLInputElement;
 
   btn.addEventListener("click", () => {
-    mainScene.debugLoadLevel(Number(input.value));
+    mainScene.levelManager.debugLoadLevel(Number(input.value));
     input.value = "";
   });
 

@@ -47,12 +47,14 @@ class Main extends Phaser.Scene {
     this.load.audio(SFX.MENU.CONFIRM, "assets/sfx/blip_01.wav");
     this.load.audio(SFX.SHIP.TURN, "assets/sfx/spaceEngineSmall_000.ogg");
     this.load.audio(SFX.SHIP.MOVE, "assets/sfx/laserSmall_003.ogg");
+    this.load.audio(SFX.SHIP.PICKUP, "assets/sfx/coin_pickup.wav");
   }
 
   create() {
     this.scene.launch("main_menu", { game });
 
     if (process.env.DEBUG) {
+      console.log("Called with debug");
       createTextInput(this);
     }
 

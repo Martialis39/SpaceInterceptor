@@ -48,6 +48,7 @@ export const SFX = {
   SHIP: {
     TURN: "ship-turn",
     MOVE: "ship-move",
+    PICKUP: "ship-pickup",
   },
 };
 
