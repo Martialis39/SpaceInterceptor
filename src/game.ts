@@ -5,7 +5,7 @@ import { createTextInput } from "./utility/creation.ts";
 // Menus and utility
 import MainMenu from "./ui/main_menu.ts";
 import Continue from "./ui/continue.ts";
-import LevelOver from "./ui/index.ts";
+import LevelOver from "./ui/level_over_ui.ts";
 import Transition from "./ui/transition.ts";
 // Levels
 import Level from "./levels/level.ts";
