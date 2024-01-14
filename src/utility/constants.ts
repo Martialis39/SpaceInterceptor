@@ -52,6 +52,10 @@ export const SFX = {
   },
 };
 
+export const BGM = {
+  TRACK_01: 'track-01'
+}
+
 export const COLORS = {
   RED: 0xff0000,
 };

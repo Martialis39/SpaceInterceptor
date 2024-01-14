@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import Score from "./ui/score.ts";
-import { SFX, SPRITES } from "./utility/constants.ts";
+import { BGM, SFX, SPRITES } from "./utility/constants.ts";
 import { createTextInput } from "./utility/creation.ts";
 // Menus and utility
 import MainMenu from "./ui/main_menu.ts";
@@ -24,9 +24,11 @@ import {
 import { LevelManager } from "./levels/levelManager.ts";
 import EndScreen from "./ui/end_screen.ts";
 import HowToPlay from "./ui/how_to_play.ts";
+import { SoundManager } from "./utility/soundManager.ts";
 
 class Main extends Phaser.Scene {
   levelManager;
+  soundManager;
   constructor() {
     super("main");
   }
@@ -38,6 +40,8 @@ class Main extends Phaser.Scene {
     this.load.image(SPRITES.BUTTONS.HOW_TO_PLAY, "assets/question_btn.png");
 
     this.levelManager = new LevelManager(this, game);
+    this.soundManager = new SoundManager(game);
+
     this.load.image(SPRITES.BACKGROUND.SPACE_01, "assets/backgrounds/bg.png");
     this.load.image(
       SPRITES.BACKGROUND.NEBULAE_01,
@@ -48,6 +52,8 @@ class Main extends Phaser.Scene {
     this.load.audio(SFX.SHIP.TURN, "assets/sfx/spaceEngineSmall_000.ogg");
     this.load.audio(SFX.SHIP.MOVE, "assets/sfx/laserSmall_003.ogg");
     this.load.audio(SFX.SHIP.PICKUP, "assets/sfx/coin_pickup.wav");
+
+    this.load.audio(BGM.TRACK_01, "assets/bgm/cosmic_sadness.wav");
   }
 
   create() {
