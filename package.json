@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "rollup --config rollup.config.dev.mjs",
         "build": "rollup --config rollup.config.dist.mjs",
+        "test:prod": "npm run build && npx http-server dist",
         "watch": "rollup --watch --config rollup.config.dev.mjs",
         "format": "prettier --write ./**/*.ts"
     },

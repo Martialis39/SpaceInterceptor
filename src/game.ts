@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
 import Score from "./ui/score.ts";
 import { BGM, SFX, SPRITES } from "./utility/constants.ts";
-import { createTextInput } from "./utility/creation.ts";
+import { createTextInput, cleanupDebug } from "./utility/creation.ts";
 // Menus and utility
 import MainMenu from "./ui/main_menu.ts";
 import Continue from "./ui/continue.ts";
@@ -61,7 +61,12 @@ class Main extends Phaser.Scene {
 
     if (process.env.DEBUG) {
       console.log("Called with debug");
+      console.log(process.env.DEBUG);
       createTextInput(this);
+    } else {
+      console.log("Called without debug");
+      console.log(process.env.DEBUG);
+      cleanupDebug();
     }
 
     this.add.sprite(0, 0, SPRITES.BACKGROUND.SPACE_01).setOrigin(0, 0);

@@ -115,3 +115,10 @@ export const createTextInput = (mainScene) => {
     display.textContent = String(time);
   });
 };
+
+export const cleanupDebug = () => {
+  const debugElement = document.getElementById("debug-only");
+  if (debugElement) {
+    debugElement.remove();
+  }
+};
