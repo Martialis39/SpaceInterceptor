@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import { vBoxContainer } from "../utility/containers";
 import { SPRITES, TEXT_STYLE } from "../utility/constants";
 import { eventBus } from "../utility/signals";
+import { createButton } from "../utility/creation";
 
 export default class HowToPlay extends Phaser.Scene {
   eventBus;
@@ -16,11 +17,7 @@ export default class HowToPlay extends Phaser.Scene {
     Collect as many stars as you can by flying from satellite to satellite.\nClick on a satellite to fly to it!
     `.trim();
     var text = this.add.text(0, 0, labelText, TEXT_STYLE);
-    const play = this.add
-      .sprite(0, 0, SPRITES.BUTTONS.PLAY)
-      .setInteractive()
-      .setAlpha(1)
-      .setScale(0.5, 0.5);
+    const play = createButton(this, SPRITES.BUTTONS.PLAY);
 
     play.on("pointerdown", () => {
       eventBus.emit("loadFirstLevel", [0]);

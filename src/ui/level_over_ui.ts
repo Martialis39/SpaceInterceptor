@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import { SPRITES, TEXT_STYLE } from "../utility/constants";
 import { eventBus } from "../utility/signals";
 import { easeInOutBack } from "../utility/easing";
+import { createButton } from "../utility/creation";
 
 export default class LevelOver extends Phaser.Scene {
   container;
@@ -18,12 +19,7 @@ export default class LevelOver extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const play = this.add
-      .sprite(0, 0, SPRITES.BUTTONS.PLAY)
-      .setInteractive()
-      .setAlpha(0)
-      .setScale(0.5, 0.5)
-      .setOrigin(0.5);
+    const play = createButton(this, SPRITES.BUTTONS.PLAY);
 
     play.on("pointerdown", () => {
       this.signals.emit("loadNextLevel");
