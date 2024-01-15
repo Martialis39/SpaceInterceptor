@@ -26,6 +26,8 @@ export default class Level extends Phaser.Scene {
 
   eventBus;
 
+  levelOver = false;
+
   constructor(key) {
     super(key);
     this.destroyStar = this.destroyStar.bind(this);
@@ -60,6 +62,7 @@ export default class Level extends Phaser.Scene {
       (s) => s.star !== starObject.star,
     );
     if (this.starsToSpawn <= 0 && this.starObjects.length <= 0) {
+      this.levelOver = true;
       this.eventBus.emit("levelOver");
     }
     starObject.star.destroy();
@@ -170,16 +173,15 @@ export default class Level extends Phaser.Scene {
       });
     }
 
-    const things = getBasesFromStrings(levelAsString);
-    const s = createBases(this, things);
+    const bases = getBasesFromStrings(levelAsString);
+    const satellites = createBases(this, bases);
 
-    const ship = new Ship(this, { x: s[0].x, y: s[0].y });
-
+    const ship = new Ship(this, { x: satellites[0].x, y: satellites[0].y });
     this.ship = ship;
 
     // initial active satellite is 0
 
-    this.activeSatellite = s[0];
+    this.activeSatellite = satellites[0];
 
     // Creating the spawners
     if (process.env.DEBUG) {
@@ -189,16 +191,21 @@ export default class Level extends Phaser.Scene {
       });
     }
 
-    s.forEach((sat) => {
+    satellites.forEach((sat) => {
       this.tweens.add({
-        targets: s,
+        targets: sat,
         angle: 360, // Rotate by 360 degrees
         duration: 8000 + Phaser.Math.Between(1, 4) * 1000,
         repeat: -1, // Repeat indefinitely (-1 means no limit)
       });
+
       sat.on("pointerdown", () => {
         // Ignore clicks on active satellite and when ship is already moving
-        if (sat === this.activeSatellite || this.ship.isMoving) {
+        if (
+          this.levelOver ||
+          sat === this.activeSatellite ||
+          this.ship.isMoving
+        ) {
           return;
         }
 

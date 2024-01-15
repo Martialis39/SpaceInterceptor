@@ -1,7 +1,6 @@
 import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
-import { SPRITES, TEXT_STYLE } from "../utility/constants";
-import { getPersistedLevel } from "../utility/localStorage";
+import { TEXT_STYLE } from "../utility/constants";
 import { eventBus } from "../utility/signals";
 
 export default class EndScreen extends Phaser.Scene {
@@ -9,9 +8,6 @@ export default class EndScreen extends Phaser.Scene {
 
   constructor() {
     super("end_screen");
-  }
-
-  init(data) {
     this.eventBus = eventBus;
   }
 
@@ -26,7 +22,7 @@ export default class EndScreen extends Phaser.Scene {
       0,
       "Game made by Mart Lepanen (github.com/Martialis39)",
       {
-        ...textStyle,
+        ...TEXT_STYLE,
         fontSize: "20px",
       },
     );
