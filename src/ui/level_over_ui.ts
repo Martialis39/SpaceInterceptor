@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
-import { SPRITES } from "../utility/constants";
+import { SPRITES, TEXT_STYLE } from "../utility/constants";
 import { eventBus } from "../utility/signals";
+import { easeInOutBack } from "../utility/easing";
 
 export default class LevelOver extends Phaser.Scene {
   container;
@@ -11,6 +12,12 @@ export default class LevelOver extends Phaser.Scene {
   }
 
   create() {
+    var levelOverText = this.add
+      .text(0, 0, "Level complete!", {
+        ...TEXT_STYLE,
+      })
+      .setOrigin(0.5);
+
     const play = this.add
       .sprite(0, 0, SPRITES.BUTTONS.PLAY)
       .setInteractive()
@@ -24,6 +31,22 @@ export default class LevelOver extends Phaser.Scene {
 
     play.x = this.cameras.main.width / 2;
     play.y = this.cameras.main.height / 2;
+
+    levelOverText.x = play.x;
+    levelOverText.y = play.y - play.displayHeight - 20;
+    this.tweens.add({
+      targets: levelOverText,
+      y: levelOverText.y + 20,
+      duration: 800, // Duration of the tween in milliseconds
+      ease: easeInOutBack, // Easing function, you can use others like 'Cubic', 'Elastic', etc.
+    });
+
+    this.tweens.add({
+      targets: levelOverText,
+      alpha: 1,
+      duration: 800, // Duration of the tween in milliseconds
+      ease: "Linear", // Easing function, you can use others like 'Cubic', 'Elastic', etc.
+    });
 
     this.tweens.add({
       targets: play,

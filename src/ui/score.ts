@@ -6,6 +6,7 @@ export default class Score extends Phaser.Scene {
   container;
   scoreText;
   box;
+
   constructor() {
     super("score");
     this.score = 0;
@@ -27,6 +28,7 @@ export default class Score extends Phaser.Scene {
     var text = this.add.text(0, 0, labelText, {
       ...TEXT_STYLE,
       fontSize: "24px",
+      color: "#000000",
     });
 
     container.add(text);
@@ -65,7 +67,9 @@ export default class Score extends Phaser.Scene {
 
   setScore() {
     this.score = this.score + 1;
+    console.log("st is ", this.scoreText);
     this.scoreText.text = `Score: ${this.score}`;
     this.resizeContainer();
+    console.log("Called setScore");
   }
 }
