@@ -1,5 +1,5 @@
 import { TransitionDirection } from "../types";
-import { levels } from "../utility/constants";
+import { SPRITES, levels } from "../utility/constants";
 import { levelsStrings } from "../utility/levelsAsString";
 import { persistLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
@@ -20,6 +20,7 @@ export class LevelManager {
     this.onLevelOver = this.onLevelOver.bind(this);
     this.loadNext = this.loadNext.bind(this);
     this.launchFirstLevel = this.launchFirstLevel.bind(this);
+    this.createBackground = this.createBackground.bind(this);
     this.eventBus = eventBus;
 
     this.eventBus.addListener("updateStarsSeen", ([payload]) => {
@@ -107,5 +108,25 @@ export class LevelManager {
 
   onLevelOver() {
     this.main.scene.launch("level_over_ui");
+  }
+
+  createBackground() {
+    const nebulae_01 = this.main.add.sprite(
+      0,
+      0,
+      SPRITES.BACKGROUND.NEBULAE_01,
+    );
+    const nebulae_02 = this.main.add.sprite(
+      0,
+      0,
+      SPRITES.BACKGROUND.NEBULAE_02,
+    );
+    const stars = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS);
+    const frame = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.FRAME);
+
+    const backgroundElements = [frame, nebulae_01, nebulae_02, stars];
+    backgroundElements.forEach((bgElement) => {
+      bgElement.setOrigin(0);
+    });
   }
 }

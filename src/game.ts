@@ -42,7 +42,16 @@ class Main extends Phaser.Scene {
     this.levelManager = new LevelManager(this, game);
     this.soundManager = new SoundManager(game);
 
-    this.load.image(SPRITES.BACKGROUND.SPACE_01, "assets/backgrounds/bg.png");
+    this.load.image(SPRITES.BACKGROUND.FRAME, "assets/backgrounds/frame.png");
+    this.load.image(
+      SPRITES.BACKGROUND.NEBULAE_01,
+      "assets/backgrounds/nebulae_01.png",
+    );
+    this.load.image(
+      SPRITES.BACKGROUND.NEBULAE_02,
+      "assets/backgrounds/nebulae_02.png",
+    );
+    this.load.image(SPRITES.BACKGROUND.STARS, "assets/backgrounds/stars.png");
     this.load.image(
       SPRITES.BACKGROUND.NEBULAE_01,
       "assets/backgrounds/nebulae.png",
@@ -57,6 +66,7 @@ class Main extends Phaser.Scene {
   }
 
   create() {
+    this.levelManager.createBackground();
     this.scene.launch("main_menu", { game });
 
     if (process.env.DEBUG) {
@@ -68,20 +78,6 @@ class Main extends Phaser.Scene {
       console.log(process.env.DEBUG);
       cleanupDebug();
     }
-
-    this.add.sprite(0, 0, SPRITES.BACKGROUND.SPACE_01).setOrigin(0, 0);
-    const neb = this.add.sprite(0, 0, SPRITES.BACKGROUND.NEBULAE_01);
-    const x = this.cameras.main.width / 2;
-    const y = this.cameras.main.height / 2;
-    neb.setX(x);
-    neb.setY(y);
-
-    this.tweens.add({
-      targets: [neb],
-      y: neb.y + 400,
-      duration: 10000, // Duration of the tween in milliseconds
-      ease: "Linear", // Easing function, you can use others like 'Cubic', 'Elastic', etc.
-    });
   }
 }
 

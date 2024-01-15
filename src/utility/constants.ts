@@ -36,8 +36,10 @@ export const SPRITES = {
     HOW_TO_PLAY: "how-to-play-btn",
   },
   BACKGROUND: {
-    SPACE_01: "bg",
-    NEBULAE_01: "nebulae",
+    FRAME: "bg-frame",
+    NEBULAE_01: "bg-nebulae_01",
+    NEBULAE_02: "bg-nebulae_02",
+    STARS: "bg-stars",
   },
 };
 
@@ -53,8 +55,8 @@ export const SFX = {
 };
 
 export const BGM = {
-  TRACK_01: 'track-01'
-}
+  TRACK_01: "track-01",
+};
 
 export const COLORS = {
   RED: 0xff0000,
