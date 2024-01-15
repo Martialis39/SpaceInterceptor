@@ -39,8 +39,8 @@ class Main extends Phaser.Scene {
     this.load.image(SPRITES.BUTTONS.FULLSCREEN, "assets/fullscreen_btn.png");
     this.load.image(SPRITES.BUTTONS.HOW_TO_PLAY, "assets/question_btn.png");
 
+    this.soundManager = new SoundManager(this, game);
     this.levelManager = new LevelManager(this, game);
-    this.soundManager = new SoundManager(game);
 
     this.load.image(SPRITES.BACKGROUND.FRAME, "assets/backgrounds/frame.png");
     this.load.image(
@@ -69,7 +69,7 @@ class Main extends Phaser.Scene {
     this.load.audio(SFX.SHIP.MOVE, "assets/sfx/laserSmall_003.ogg");
     this.load.audio(SFX.SHIP.PICKUP, "assets/sfx/coin_pickup.wav");
 
-    this.load.audio(BGM.TRACK_01, "assets/bgm/cosmic_sadness.wav");
+    this.load.audio(BGM.TRACK_01, "assets/bgm/ambient_space_01.wav");
   }
 
   create() {

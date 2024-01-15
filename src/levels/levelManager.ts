@@ -43,6 +43,8 @@ export class LevelManager {
     this.eventBus.addListener("loadFirstLevel", ([index]) => {
       console.log("INFO: Index is ", index);
       this.launchFirstLevel(Number(index));
+
+      eventBus.emit("playBGM");
     });
 
     this.eventBus.addListener("levelOver", () => {
