@@ -2,7 +2,6 @@ import { TransitionDirection } from "../types";
 import Score from "../ui/score";
 import { SPRITES, levels } from "../utility/constants";
 import { levelsStrings } from "../utility/levelsAsString";
-import { persistLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
 
 export class LevelManager {
@@ -103,7 +102,6 @@ export class LevelManager {
       .launch(this.levels[this.currentLevel + 1], {});
     this.main.scene.stop("level_over_ui");
     this.currentLevel += 1;
-    persistLevel(String(this.currentLevel));
   }
 
   debugLoadLevel(index) {

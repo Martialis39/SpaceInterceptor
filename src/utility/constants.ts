@@ -71,7 +71,6 @@ export const LS = {
     .map((_e, i) => {
       return `ssc-level-${i}-save`;
     }),
-  LEVEL_DATA: "ssc-level-data",
 };
 
 export const WIDTH = 1280;
