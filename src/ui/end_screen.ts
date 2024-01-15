@@ -5,10 +5,17 @@ import { eventBus } from "../utility/signals";
 
 export default class EndScreen extends Phaser.Scene {
   eventBus;
+  starsSeen;
+  finalScore;
 
   constructor() {
     super("end_screen");
     this.eventBus = eventBus;
+  }
+
+  init(data) {
+    this.starsSeen = data.starsSeen;
+    this.finalScore = data.finalScore;
   }
 
   create() {
@@ -16,6 +23,16 @@ export default class EndScreen extends Phaser.Scene {
       "That's all for now! Thank you for playing! I hope you had fun!";
 
     var text = this.add.text(0, 0, labelText, TEXT_STYLE);
+
+    const scoreText = this.add.text(
+      0,
+      0,
+      `Your final score was ${this.finalScore}/${this.starsSeen}!`,
+      {
+        ...TEXT_STYLE,
+        fontSize: "20px",
+      },
+    );
 
     var creditsText = this.add.text(
       0,
@@ -27,7 +44,10 @@ export default class EndScreen extends Phaser.Scene {
       },
     );
 
-    const vbox = vBoxContainer({ children: [text, creditsText], scene: this });
+    const vbox = vBoxContainer({
+      children: [text, scoreText, creditsText],
+      scene: this,
+    });
     vbox.x = this.cameras.main.width / 2 - vbox.width / 2;
     vbox.y = this.cameras.main.height / 2 - vbox.height / 2;
   }

@@ -1,4 +1,5 @@
 import { TransitionDirection } from "../types";
+import Score from "../ui/score";
 import { SPRITES, levels } from "../utility/constants";
 import { levelsStrings } from "../utility/levelsAsString";
 import { persistLevel } from "../utility/localStorage";
@@ -31,10 +32,20 @@ export class LevelManager {
 
     this.eventBus.addListener("loadNextLevel", () => {
       console.log("INFO: Called loadNextLevel");
-      if (this.currentLevel + 1 === this.levels.length) {
+      if (this.currentLevel + 1 >= this.levels.length) {
         console.log("INFO: This was the last level");
+        const scoreScene: Score = this.main.scene.get("score") as Score;
+        let score;
+        if (scoreScene) {
+          score = scoreScene.getScore();
+        } else {
+          throw new Error("Failed to get Score Scene");
+        }
         game.scene.getScenes().forEach((s) => s.scene.stop());
-        this.main.scene.launch("end_screen");
+        this.main.scene.launch("end_screen", {
+          finalScore: score,
+          starsSeen: this.starsSeen,
+        });
       } else {
         this.loadNext();
       }
