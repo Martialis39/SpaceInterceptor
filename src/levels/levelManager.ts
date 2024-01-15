@@ -121,12 +121,34 @@ export class LevelManager {
       0,
       SPRITES.BACKGROUND.NEBULAE_02,
     );
-    const stars = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS);
-    const frame = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.FRAME);
+    const nebulae_03 = this.main.add.sprite(
+      0,
+      0,
+      SPRITES.BACKGROUND.NEBULAE_03,
+    );
+    const stars_01 = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS_01);
+    const stars_02 = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS_02);
+    const frame = this.main.add
+      .sprite(0, 0, SPRITES.BACKGROUND.FRAME)
+      .setOrigin(0);
 
-    const backgroundElements = [frame, nebulae_01, nebulae_02, stars];
-    backgroundElements.forEach((bgElement) => {
+    const backgroundElements = [
+      nebulae_01,
+      nebulae_02,
+      nebulae_03,
+      stars_01,
+      stars_02,
+    ];
+    backgroundElements.forEach((bgElement, index) => {
       bgElement.setOrigin(0);
+      bgElement.setY(-bgElement.height);
+      bgElement.setX(bgElement.x - bgElement.width / 4);
+      this.main.tweens.add({
+        targets: bgElement,
+        y: 1440,
+        duration: 35000 + index * 5000,
+        repeat: -1,
+      });
     });
   }
 }

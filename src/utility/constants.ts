@@ -39,7 +39,9 @@ export const SPRITES = {
     FRAME: "bg-frame",
     NEBULAE_01: "bg-nebulae_01",
     NEBULAE_02: "bg-nebulae_02",
-    STARS: "bg-stars",
+    NEBULAE_03: "bg-nebulae_03",
+    STARS_01: "bg-stars_01",
+    STARS_02: "bg-stars_02",
   },
 };
 

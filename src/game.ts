@@ -51,10 +51,17 @@ class Main extends Phaser.Scene {
       SPRITES.BACKGROUND.NEBULAE_02,
       "assets/backgrounds/nebulae_02.png",
     );
-    this.load.image(SPRITES.BACKGROUND.STARS, "assets/backgrounds/stars.png");
     this.load.image(
-      SPRITES.BACKGROUND.NEBULAE_01,
-      "assets/backgrounds/nebulae.png",
+      SPRITES.BACKGROUND.NEBULAE_03,
+      "assets/backgrounds/nebulae_03.png",
+    );
+    this.load.image(
+      SPRITES.BACKGROUND.STARS_01,
+      "assets/backgrounds/stars_01.png",
+    );
+    this.load.image(
+      SPRITES.BACKGROUND.STARS_02,
+      "assets/backgrounds/stars_02.png",
     );
 
     this.load.audio(SFX.MENU.CONFIRM, "assets/sfx/blip_01.wav");
