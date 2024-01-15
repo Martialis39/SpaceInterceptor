@@ -113,11 +113,25 @@ export class LevelManager {
   }
 
   createBackground() {
+    const centerX = this.main.cameras.main.width / 2;
+    const centerY = this.main.cameras.main.height / 2;
+    // const centerX = this.main.cameras.main.height / 2;
     const nebulae_01 = this.main.add.sprite(
       0,
       0,
       SPRITES.BACKGROUND.NEBULAE_01,
     );
+
+    const stars_01 = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS_01);
+
+    const fixedElements = [nebulae_01, stars_01];
+
+    fixedElements.forEach((element) => {
+      element.setScale(0.5);
+      element.x = centerX;
+      element.y = centerY;
+    });
+
     const nebulae_02 = this.main.add.sprite(
       0,
       0,
@@ -128,27 +142,23 @@ export class LevelManager {
       0,
       SPRITES.BACKGROUND.NEBULAE_03,
     );
-    const stars_01 = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS_01);
+
     const stars_02 = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS_02);
-    const frame = this.main.add
+    const stars_03 = this.main.add.sprite(0, 0, SPRITES.BACKGROUND.STARS_01);
+
+    const _frame = this.main.add
       .sprite(0, 0, SPRITES.BACKGROUND.FRAME)
       .setOrigin(0);
 
-    const backgroundElements = [
-      nebulae_01,
-      nebulae_02,
-      nebulae_03,
-      stars_01,
-      stars_02,
-    ];
+    const backgroundElements = [nebulae_02, nebulae_03, stars_02, stars_03];
     backgroundElements.forEach((bgElement, index) => {
       bgElement.setOrigin(0);
       bgElement.setY(-bgElement.height);
       bgElement.setX(bgElement.x - bgElement.width / 4);
       this.main.tweens.add({
         targets: bgElement,
-        y: 1440,
-        duration: 35000 + index * 5000,
+        y: this.main.cameras.main.height * 2,
+        duration: 60 * 1000 + index * 1000 * 10,
         repeat: -1,
       });
     });
