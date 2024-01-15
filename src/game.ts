@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import Score from "./ui/score.ts";
-import { BGM, SFX, SPRITES } from "./utility/constants.ts";
+import { BGM, SFX, SPRITES, WIDTH, HEIGHT } from "./utility/constants.ts";
 import { createTextInput, cleanupDebug } from "./utility/creation.ts";
 // Menus and utility
 import MainMenu from "./ui/main_menu.ts";
@@ -93,8 +93,8 @@ const debug = process.env.DEBUG;
 const config = {
   type: Phaser.AUTO,
   backgroundColor: "#000",
-  width: 1280,
-  height: 720,
+  width: WIDTH,
+  height: HEIGHT,
   scene: [
     Main,
     MainMenu,

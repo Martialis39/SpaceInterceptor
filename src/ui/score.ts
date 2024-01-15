@@ -1,4 +1,5 @@
 import * as Phaser from "phaser";
+import { TEXT_STYLE } from "../utility/constants";
 
 export default class Score extends Phaser.Scene {
   score;
@@ -23,12 +24,10 @@ export default class Score extends Phaser.Scene {
 
     // Create text
     var labelText = `Score: ${this.score}`;
-    var textStyle = {
+    var text = this.add.text(0, 0, labelText, {
+      ...TEXT_STYLE,
       fontSize: "24px",
-      fontFamily: "FFFForward",
-      color: "#000000",
-    }; // Set your desired text style
-    var text = this.add.text(0, 0, labelText, textStyle);
+    });
 
     container.add(text);
 

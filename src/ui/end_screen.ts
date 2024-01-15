@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
-import { SPRITES } from "../utility/constants";
+import { SPRITES, TEXT_STYLE } from "../utility/constants";
 import { getPersistedLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
 
@@ -18,13 +18,8 @@ export default class EndScreen extends Phaser.Scene {
   create() {
     var labelText =
       "That's all for now! Thank you for playing! I hope you had fun!";
-    var textStyle = {
-      fontSize: "36px",
-      fontFamily: "FFFForward",
-      color: "#fafafa",
-      wordWrap: { width: this.cameras.main.width / 2, useAdvancedWrap: false },
-    }; // Set your desired text style
-    var text = this.add.text(0, 0, labelText, textStyle);
+
+    var text = this.add.text(0, 0, labelText, TEXT_STYLE);
 
     var creditsText = this.add.text(
       0,

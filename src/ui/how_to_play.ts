@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import { vBoxContainer } from "../utility/containers";
-import { SPRITES } from "../utility/constants";
+import { SPRITES, TEXT_STYLE } from "../utility/constants";
 import { eventBus } from "../utility/signals";
 
 export default class HowToPlay extends Phaser.Scene {
@@ -15,13 +15,7 @@ export default class HowToPlay extends Phaser.Scene {
     var labelText = `
     Collect as many stars as you can by flying from satellite to satellite.\nClick on a satellite to fly to it!
     `.trim();
-    var textStyle = {
-      fontSize: "20px",
-      fontFamily: "FFFForward",
-      color: "#fafafa",
-      wordWrap: { width: this.cameras.main.width / 2, useAdvancedWrap: false },
-    }; // Set your desired text style
-    var text = this.add.text(0, 0, labelText, textStyle);
+    var text = this.add.text(0, 0, labelText, TEXT_STYLE);
     const play = this.add
       .sprite(0, 0, SPRITES.BUTTONS.PLAY)
       .setInteractive()

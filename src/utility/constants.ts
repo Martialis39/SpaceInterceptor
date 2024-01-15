@@ -73,3 +73,13 @@ export const LS = {
     }),
   LEVEL_DATA: "ssc-level-data",
 };
+
+export const WIDTH = 1280;
+export const HEIGHT = 720;
+
+export const TEXT_STYLE = {
+  fontSize: "36px",
+  fontFamily: "FFFForward",
+  color: "#fafafa",
+  wordWrap: { width: WIDTH / 2, useAdvancedWrap: false },
+};

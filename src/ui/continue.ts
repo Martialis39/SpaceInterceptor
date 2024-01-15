@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
-import { SPRITES } from "../utility/constants";
+import { SPRITES, TEXT_STYLE } from "../utility/constants";
 import { getPersistedLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
 
@@ -18,13 +18,7 @@ export default class Continue extends Phaser.Scene {
   create() {
     var labelText =
       "There is a save game from a previous session. Would you like to continue?";
-    var textStyle = {
-      fontSize: "36px",
-      fontFamily: "FFFForward",
-      color: "#fafafa",
-      wordWrap: { width: this.cameras.main.width / 2, useAdvancedWrap: false },
-    }; // Set your desired text style
-    var text = this.add.text(0, 0, labelText, textStyle);
+    var text = this.add.text(0, 0, labelText, TEXT_STYLE);
     const play = this.add
       .sprite(0, 0, SPRITES.BUTTONS.PLAY)
       .setInteractive()
@@ -50,11 +44,11 @@ export default class Continue extends Phaser.Scene {
     });
 
     var continueText = this.add.text(0, 0, "Continue", {
-      ...textStyle,
+      ...TEXT_STYLE,
       fontSize: "24px",
     });
     var quitText = this.add.text(0, 0, "Quit", {
-      ...textStyle,
+      ...TEXT_STYLE,
       fontSize: "24px",
     });
 

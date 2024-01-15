@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
 import { hBoxContainer, vBoxContainer } from "../utility/containers";
-import { SFX, SPRITES } from "../utility/constants";
+import { SFX, SPRITES, TEXT_STYLE } from "../utility/constants";
 import { easeInOutBack } from "../utility/easing";
 import { getPersistedLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
@@ -90,12 +90,10 @@ export default class MainMenu extends Phaser.Scene {
     });
 
     var labelText = "Space Interceptor";
-    var textStyle = {
+    var text = this.add.text(0, 0, labelText, {
+      ...TEXT_STYLE,
       fontSize: "48px",
-      fontFamily: "FFFForward",
-      color: "#fafafa",
-    }; // Set your desired text style
-    var text = this.add.text(0, 0, labelText, textStyle);
+    });
     const vbox = vBoxContainer({
       children: [text, play, howToPlay],
       scene: this,
