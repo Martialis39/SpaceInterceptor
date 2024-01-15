@@ -4,6 +4,7 @@ import { SFX, SPRITES, TEXT_STYLE } from "../utility/constants";
 import { easeInOutBack } from "../utility/easing";
 import { getPersistedLevel } from "../utility/localStorage";
 import { eventBus } from "../utility/signals";
+import { createButton } from "../utility/creation";
 
 export default class MainMenu extends Phaser.Scene {
   eventBus;
@@ -17,12 +18,7 @@ export default class MainMenu extends Phaser.Scene {
   }
 
   create() {
-    const play = this.add
-      .sprite(0, 0, SPRITES.BUTTONS.PLAY)
-      .setInteractive()
-      .setAlpha(1)
-      .setScale(0.5, 0.5);
-
+    const play = createButton(this, SPRITES.BUTTONS.PLAY);
     play.on("pointerdown", () => {
       this.scene.stop("main_menu");
 
@@ -35,21 +31,13 @@ export default class MainMenu extends Phaser.Scene {
       }
     });
 
-    const howToPlay = this.add
-      .sprite(0, 0, SPRITES.BUTTONS.HOW_TO_PLAY)
-      .setInteractive()
-      .setAlpha(1)
-      .setScale(0.5, 0.5);
+    const howToPlay = createButton(this, SPRITES.BUTTONS.HOW_TO_PLAY);
 
     howToPlay.on("pointerdown", () => {
       this.eventBus.emit("loadHowToPlayPage", [0]);
     });
 
-    const fs = this.add
-      .sprite(0, 0, SPRITES.BUTTONS.FULLSCREEN)
-      .setInteractive()
-      .setAlpha(1)
-      .setScale(0.5, 0.5);
+    const fs = createButton(this, SPRITES.BUTTONS.FULLSCREEN);
 
     const confirmSFX = this.sound.add(SFX.MENU.CONFIRM);
 
@@ -66,26 +54,6 @@ export default class MainMenu extends Phaser.Scene {
         ease: easeInOutBack,
         duration: 100,
         yoyo: true,
-      });
-    });
-
-    [play, howToPlay, fs].forEach((btn) => {
-      btn.on("pointerover", () => {
-        this.tweens.add({
-          targets: btn,
-          y: btn.y - 6,
-          ease: easeInOutBack,
-          duration: 200,
-        });
-      });
-
-      btn.on("pointerout", () => {
-        this.tweens.add({
-          targets: btn,
-          y: btn.y + 6,
-          ease: easeInOutBack,
-          duration: 200,
-        });
       });
     });
 

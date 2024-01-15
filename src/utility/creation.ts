@@ -1,5 +1,6 @@
 import { GameElement } from "../types";
 import { LS } from "./constants";
+import { easeInOutBack } from "./easing";
 
 export const createBases = (scene, parsedLevel) => {
   const bases = getBasesFromStrings(parsedLevel);
@@ -121,4 +122,44 @@ export const cleanupDebug = () => {
   if (debugElement) {
     debugElement.remove();
   }
+};
+
+type BUTTON_TYPE = "HOVERED" | "NORMAL";
+
+export const createButton = (scene, sprite) => {
+  let buttonState: BUTTON_TYPE = "NORMAL";
+  const button = scene.add
+    .sprite(0, 0, sprite)
+    .setInteractive()
+    .setAlpha(1)
+    .setScale(0.5);
+
+  button.on("pointerover", () => {
+    if (buttonState !== "HOVERED") {
+      scene.tweens.add({
+        targets: button,
+        y: button.y - 6,
+        ease: easeInOutBack,
+        duration: 200,
+        onComplete: () => {
+          buttonState = "HOVERED";
+        },
+      });
+    }
+  });
+  button.on("pointerout", () => {
+    if (buttonState === "HOVERED") {
+      scene.tweens.add({
+        targets: button,
+        y: button.y + 6,
+        ease: easeInOutBack,
+        duration: 200,
+        onComplete: () => {
+          buttonState = "NORMAL";
+        },
+      });
+    }
+  });
+
+  return button;
 };
